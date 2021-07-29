@@ -1,4 +1,11 @@
 {
     "java.project.sourcePaths": ["src"],
-    "java.project.outputPath": "bin"
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\Compy-386\\Java\\slick\\lib\\jinput.jar",
+        "c:\\Users\\Compy-386\\Java\\slick\\lib\\lwjgl.jar",
+        "c:\\Users\\Compy-386\\Java\\slick\\lib\\lwjgl_util.jar",
+        "c:\\Users\\Compy-386\\Java\\slick\\lib\\slick.jar"
+    ]
 }
