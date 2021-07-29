@@ -1,43 +1,44 @@
-package finalProject;
-//peekaboo
+
+import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-public class Test extends BasicGame
+public class SetupClass extends BasicGame
 {
 
-	public Test(String title)
+	public SetupClass(String title)
 	{
 		super(title);
-		// TODO Auto-generated constructor stub
+	
 	}
 
-	public static void main(String[] args)
+	@Override
+	public void init(GameContainer container) throws SlickException
+	{
+
+	}
+	
+	@Override
+	public void update(GameContainer container, int delta) throws SlickException
 	{
 
 	}
 
 	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException
+	public void render(GameContainer container, Graphics g) throws SlickException
 	{
-		// TODO Auto-generated method stub
-		
+		g.drawString("Hello World!", 0, 0);
 	}
 
-	@Override
-	public void init(GameContainer arg0) throws SlickException
+	public static void main(String[] args) throws SlickException
 	{
-		// TODO Auto-generated method stub
+		AppGameContainer app = new AppGameContainer(new SetupClass("Setup Test"));
 		
-	}
-
-	@Override
-	public void update(GameContainer arg0, int arg1) throws SlickException
-	{
-		// TODO Auto-generated method stub
+		app.setDisplayMode(800, 600, false);
 		
+		app.start();
 	}
-
 }
