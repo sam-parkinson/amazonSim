@@ -4,3 +4,8 @@
 /Map.class
 /Menu.class
 /SetupClass.class
+/House.class
+/Building.class
+/Apartment.class
+/Store.class
+/Building$Status.class
