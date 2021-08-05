@@ -13,7 +13,7 @@ public class Map extends BasicGameState
 	
 	private Image map = null;
 	private Image car = null;
-	private Image house = null;
+	private House house = null;	// maybe use building array to store buildings?
 
 
 
@@ -22,7 +22,7 @@ public class Map extends BasicGameState
 	{
 		map = new Image("Sprites/map.png");
 		car = new Image("Sprites/car.png");
-		house = new Image("Sprites/HOUSE.png");
+		house = new House("Sprites/HOUSE.png", 200, 200);
 		
 	}
 
@@ -33,7 +33,7 @@ public class Map extends BasicGameState
 		
 		map.draw();
 		car.draw(500, 450);
-		house.draw(100,100);
+		house.DrawBuilding();
 
 		
 	}
