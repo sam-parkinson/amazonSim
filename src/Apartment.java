@@ -3,7 +3,8 @@ import org.newdawn.slick.SlickException;
 public class Apartment extends Building
 {
 
-	public Apartment(String imageLocation, int x, int y) throws SlickException {
+	public Apartment(String imageLocation, int x, int y) throws SlickException 
+	{
 		super(imageLocation, x, y);
 		// TODO Auto-generated constructor stub
 	}

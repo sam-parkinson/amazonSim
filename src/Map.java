@@ -17,17 +17,19 @@ public class Map extends BasicGameState
 	
 	private Image map = null;
 	private Image car = null;
-	private House house = null;	// maybe use building array to store buildings?
-
+	private Building[] buildings = new Building[5];
 
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
-		map = new Image("Sprites/map.png");
-		car = new Image("Sprites/car.png");
-		house = new House("Sprites/HOUSE.png", 0, 0);
-		
+		map = new Image("Sprites/map.png");							// 1280 by 720
+		car = new Image("Sprites/vehicles/car.png");
+		buildings[0] = new House("Sprites/buildings/HOUSE.png", 0, 0);
+		buildings[1] = new Store("Sprites/buildings/Shoppe.png", 150, 498); // use this height for top of lowest horizontal road
+		buildings[2] = new Store("Sprites/buildings/Shoppe.png", 350, 200);
+		buildings[3] = new House("Sprites/buildings/HOUSE.png", 960, 320);
+		buildings[4] = new House("Sprites/buildings/HOUSE.png", 670, 498); // this one in a reasonable location?
 	}
 
 	@Override
@@ -37,8 +39,10 @@ public class Map extends BasicGameState
 		
 		map.draw();
 		car.draw(500, 450);
-		house.DrawBuilding();
-
+		for (int i = 0; i < buildings.length; i++)
+		{
+			buildings[i].DrawBuilding();
+		}
 		
 	}
 
