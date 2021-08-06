@@ -9,7 +9,7 @@ public class House extends Building
 		// TODO Auto-generated constructor stub
 	}
 	
-	// house is 52h, 32w
+	// house is 52h, 32w (64h, 32w including whitespace)
 
 	@Override
 	public void Score() {

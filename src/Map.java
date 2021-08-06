@@ -7,6 +7,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.*;
 
+/**
+ * The Map class defines the main game state
+ */
+
 public class Map extends BasicGameState
 {
 	
@@ -22,7 +26,7 @@ public class Map extends BasicGameState
 	{
 		map = new Image("Sprites/map.png");
 		car = new Image("Sprites/car.png");
-		house = new House("Sprites/HOUSE.png", 200, 200);
+		house = new House("Sprites/HOUSE.png", 0, 0);
 		
 	}
 
