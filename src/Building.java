@@ -40,6 +40,8 @@ public abstract class Building
 	 * library using the x and y coordinates provided when the Building was defined.
 	 */
 	
+	// Getter for coordinates?
+	
 	public void drawBuilding()
 	{
 		image.draw(x,y);
