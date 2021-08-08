@@ -87,17 +87,16 @@ public abstract class Building
 	
 	/**
 	 * The drawBuilding method calls the draw method of the Building's Image provided by the Slick
-	 * library using the x and y coordinates provided when the Building was defined.
+	 * library using the x and y coordinates provided when the Building was defined. It also draws
+	 * the flag representing the building's current delivery status above the building.
 	 */
 	
 	
 	public void drawBuilding()
 	{
 		image.draw(x,y);
-		if (status.flag != null)
-		{
-			status.flag.draw(x - 16 + (image.getWidth()/2), y - 32);
-		}
+		// Flag is 32 by 32, midpoint of flag centered above midpoint of building
+		status.flag.draw(x - 16 + (image.getWidth()/2), y - 32);
 	}
 	
 	/**
@@ -111,7 +110,6 @@ public abstract class Building
 	{
 		// TODO: write this function
 		this.status = newStatus;
-		// call function to display flag
 	}
 	
 	
@@ -120,7 +118,5 @@ public abstract class Building
 	 * subclasses is the differences that occur when package delivery is completed.
 	 */
 	public abstract void score();
-	
-	// all buildings must be able to create themselves?
 	
 }
