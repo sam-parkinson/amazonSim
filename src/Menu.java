@@ -7,6 +7,15 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+/**
+ * 
+ * The Menu class is opened by default when the game is started, and allows the user to play the game,
+ * exit the game, or learn more about how to play the game.
+ *
+ */
+
+// TODO: Flesh out menu screen, make menu first thing that appears
+
 public class Menu extends BasicGameState
 {
 

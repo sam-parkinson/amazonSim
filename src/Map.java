@@ -41,7 +41,7 @@ public class Map extends BasicGameState
 		car.draw(500, 450);
 		for (int i = 0; i < buildings.length; i++)
 		{
-			buildings[i].DrawBuilding();
+			buildings[i].drawBuilding();
 		}
 		
 	}
