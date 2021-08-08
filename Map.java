@@ -1,8 +1,10 @@
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
@@ -13,7 +15,6 @@ public class Map extends BasicGameState
 	
 	
 	private Image map = null;
-	private Image car = null;
 	private Image house = null;
 	private Rectangle carBox = null;
 	private Rectangle deliveryZone = null;
@@ -21,6 +22,10 @@ public class Map extends BasicGameState
 	private Polygon wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10, wall11;
 	private float movementX, movementY;
 	private boolean collision;
+	private SpriteSheet truckRight, truckLeft, truckUp, truckDown, truckRightStill, truckLeftStill, truckUpStill, truckDownStill;
+	private Animation truckRightAni, truckLeftAni, truckUpAni, truckDownAni, truckRightStillAni, truckLeftStillAni, truckUpStillAni, truckDownStillAni;
+	private Animation correctAnimation;
+	private char lastKeyPressed;
 
 
 
@@ -28,9 +33,8 @@ public class Map extends BasicGameState
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
 		map = new Image("Sprites/map.png");
-		car = new Image("Sprites/car.png");
 		house = new Image("Sprites/HOUSE.png");
-		carBox = new Rectangle(475, 200, 32, 32);
+		carBox = new Rectangle(475, 200, 23, 25);
 		float[] mapBorderPoints = new float[]{0, 0, 1280, 0, 1280, 720, 0, 720};
 		mapBorder = new Polygon(mapBorderPoints);
 		float[] wall1Points = new float[] {118, 124, 471, 124, 471, 339, 273, 339, 273, 396, 471, 396, 471, 565, 118, 565};		
@@ -55,11 +59,29 @@ public class Map extends BasicGameState
 		wall10 = new Polygon(wall10Points);
 		float[] wall11Points = new float[] {1132, 622, 1280, 622, 1280, 720, 1132, 720};
 		wall11 = new Polygon(wall11Points);
-
+		
+		
+		truckUp = new SpriteSheet("Sprites/truckUp.png", 20, 25);
+		truckDown = new SpriteSheet("Sprites/truckDown.png", 20, 25);
+		truckLeft = new SpriteSheet("Sprites/truckLeft.png", 23, 23);
+		truckRight = new SpriteSheet("Sprites/truckRight.png", 23, 23);
+		truckUpStill = new SpriteSheet("Sprites/truckUpStill.png", 20, 24);
+		truckDownStill = new SpriteSheet("Sprites/truckDownStill.png", 20, 24);
+		truckLeftStill = new SpriteSheet("Sprites/truckLeftStill.png", 23, 22);
+		truckRightStill = new SpriteSheet("Sprites/truckRightStill.png", 23, 22);
+		
+		truckUpAni = new Animation(truckUp, 150);
+		truckDownAni = new Animation(truckDown, 150);
+		truckLeftAni = new Animation(truckLeft, 150);
+		truckRightAni = new Animation(truckRight, 150);
+		truckUpStillAni = new Animation(truckUpStill, 150);
+		truckDownStillAni = new Animation(truckDownStill, 150);
+		truckLeftStillAni = new Animation(truckLeftStill, 150);
+		truckRightStillAni = new Animation(truckRightStill, 150);
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException
+	public void render(GameContainer container, StateBasedGame arg1, Graphics g) throws SlickException
 	{
 		
 		g.draw(wall1);
@@ -78,14 +100,14 @@ public class Map extends BasicGameState
 		g.draw(mapBorder);
 		g.draw(carBox);
 		map.draw();
-		car.draw(carBox.getX(), carBox.getY());
+		directionDirector(container).draw(carBox.getX(), carBox.getY());
 		//house.draw(100,100);
 
 		
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame sbg, int arg2) throws SlickException
+	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException
 	{
 		if(container.getInput().isKeyDown(Input.KEY_D))
 			movementX = .25f;
@@ -119,9 +141,56 @@ public class Map extends BasicGameState
 		{
 			carBox.setY(carBox.getY() - movementY);
 		}
-
+		
+		
+		truckUpAni.update(delta);
+		truckDownAni.update(delta);
+		truckLeftAni.update(delta);
+		truckRightAni.update(delta);
 			
 	}
+	
+	
+	public Animation directionDirector(GameContainer container)
+	{
+		if(container.getInput().isKeyDown(Input.KEY_D))
+		{
+			correctAnimation = truckRightAni;
+			lastKeyPressed = 'd';
+		}
+		else if(container.getInput().isKeyDown(Input.KEY_A))
+		{
+			correctAnimation = truckLeftAni;
+			lastKeyPressed = 'a';
+		}
+		else if(container.getInput().isKeyDown(Input.KEY_W))
+		{
+			correctAnimation = truckUpAni;
+			lastKeyPressed = 'w';
+		}
+		else if(container.getInput().isKeyDown(Input.KEY_S))
+		{
+			correctAnimation = truckDownAni;
+			lastKeyPressed = 's';
+		}
+		else if(lastKeyPressed == 'd')
+			correctAnimation = truckRightStillAni;
+		
+		else if(lastKeyPressed == 'a')
+			correctAnimation = truckLeftStillAni;
+		
+		else if(lastKeyPressed == 'w')
+			correctAnimation = truckUpStillAni;
+		
+		else if(lastKeyPressed == 's')
+			correctAnimation = truckDownStillAni;
+		
+		else
+			correctAnimation = truckRightStillAni;
+		
+		return correctAnimation;
+	}	
+	
 	
 	public boolean collision()
 	{	
@@ -151,9 +220,10 @@ public class Map extends BasicGameState
 			collision = true;
 		else
 			collision = false;
-		return collision;
-		
+		return collision;	
 	}
+	
+
 
 	@Override
 	public int getID()
