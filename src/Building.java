@@ -92,10 +92,20 @@ public abstract class Building
 		return this.y;
 	}
 	
+	/**
+	 * The getZone method
+	 * @return The delivery zone for the building
+	 */
+	
 	public Rectangle getZone()
 	{
 		return this.zone;
 	}
+	
+	/**
+	 * The getHitbox method
+	 * @return The hitbox for the building, used to detect collisions
+	 */
 	
 	public Rectangle getHitbox()
 	{

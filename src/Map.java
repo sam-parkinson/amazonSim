@@ -139,6 +139,12 @@ public class Map extends BasicGameState
 		
 	}
 	
+	/**
+	 * The collision method checks each road and building to see if the player character
+	 * is contacting or overlapping with any of them.
+	 * @return Whether or not the player character is colliding with a road or building
+	 */
+	
 	public boolean collision()
 	{	
 		// Check to see if car colliding with edge of road
