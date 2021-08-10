@@ -21,21 +21,21 @@ public class Map extends BasicGameState
 	
 	private Image map = null;
 	
+	/**
+	 *	The buildings field contains an array consisting of all of the buildings to be
+	 *	placed on the map.
+	 */
 	private Building[] buildings = new Building[3];
 	
 	/**
-	 * The roads field contains all of the boxes defining the roads on which the car can drive
+	 * 	The roads field contains an array consisting of all of the edges of the roads on which
+	 *  vehicle objects can drive.
 	 */
 	private Polygon[] roads = new Polygon[12];
 	
-	private Rectangle carBox = null;
+	private Player player;
 	private Rectangle deliveryZone = null;
 	private float movementX, movementY;
-	private SpriteSheet truckRight, truckLeft, truckUp, truckDown, truckRightStill, truckLeftStill, truckUpStill, truckDownStill;
-	private Animation truckRightAni, truckLeftAni, truckUpAni, truckDownAni, truckRightStillAni, truckLeftStillAni, truckUpStillAni, truckDownStillAni;
-	private Animation correctAnimation;
-	private char lastKeyPressed;
-
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
@@ -49,9 +49,8 @@ public class Map extends BasicGameState
 		buildings[1] = new House("Sprites/buildings/HOUSE.png", 736, 128);
 		buildings[2] = new Store("Sprites/buildings/Shoppe.png", 128, 498);  // use this height for top of lowest horizontal road
 		
-		carBox = new Rectangle(475, 200, 23, 25);
+		player = new Player(475, 200, 23, 25);
 		
-
 		/*
 		 	Below are the polygons defining the wall edges, which are used to bound the car's movement
 		*/
@@ -68,23 +67,6 @@ public class Map extends BasicGameState
 		roads[10] = new Polygon(new float[] {118, 622, 1075, 622, 1075, 720, 118, 720});
 		roads[11] = new Polygon(new float[] {1132, 622, 1280, 622, 1280, 720, 1132, 720});
 		
-		truckUp = new SpriteSheet("Sprites/vehicles/truckUp.png", 20, 25);
-		truckDown = new SpriteSheet("Sprites/vehicles/truckDown.png", 20, 25);
-		truckLeft = new SpriteSheet("Sprites/vehicles/truckLeft.png", 23, 23);
-		truckRight = new SpriteSheet("Sprites/vehicles/truckRight.png", 23, 23);
-		truckUpStill = new SpriteSheet("Sprites/vehicles/truckUpStill.png", 20, 24);
-		truckDownStill = new SpriteSheet("Sprites/vehicles/truckDownStill.png", 20, 24);
-		truckLeftStill = new SpriteSheet("Sprites/vehicles/truckLeftStill.png", 23, 22);
-		truckRightStill = new SpriteSheet("Sprites/vehicles/truckRightStill.png", 23, 22);
-		
-		truckUpAni = new Animation(truckUp, 150);
-		truckDownAni = new Animation(truckDown, 150);
-		truckLeftAni = new Animation(truckLeft, 150);
-		truckRightAni = new Animation(truckRight, 150);
-		truckUpStillAni = new Animation(truckUpStill, 150);
-		truckDownStillAni = new Animation(truckDownStill, 150);
-		truckLeftStillAni = new Animation(truckLeftStill, 150);
-		truckRightStillAni = new Animation(truckRightStill, 150);
 	}
 
 	@Override
@@ -96,9 +78,9 @@ public class Map extends BasicGameState
 			g.draw(roads[i]);
 		}
 	
-		g.draw(carBox);
+		g.draw(player.getHitbox());
 		map.draw();
-		directionDirector(container).draw(carBox.getX(), carBox.getY());
+		player.sprite(container).draw(player.getX(), player.getY());
 		
 		for (int i = 0; i < buildings.length; i++)
 		{
@@ -120,11 +102,11 @@ public class Map extends BasicGameState
 		else
 			movementX = 0;
 		
-		carBox.setX(carBox.getX() + movementX);
+		player.setX(movementX);
 		
 		if(collision())
 		{
-			carBox.setX(carBox.getX() - movementX);
+			player.setX(-movementX);
 		}
 		
 		
@@ -137,67 +119,23 @@ public class Map extends BasicGameState
 		else
 			movementY = 0;
 		
-		carBox.setY(carBox.getY() + movementY);
+		player.setY(movementY);
 		
 		if(collision())
 		{
-			carBox.setY(carBox.getY() - movementY);
+			player.setY(-movementY);
 		}
-		
-		truckUpAni.update(delta);
-		truckDownAni.update(delta);
-		truckLeftAni.update(delta);
-		truckRightAni.update(delta);
 		
 		if(container.getInput().isKeyPressed(Input.KEY_SPACE))
-			sbg.enterState(1, new FadeOutTransition(), new FadeInTransition());
+			sbg.enterState(1, new FadeOutTransition(), new FadeInTransition()); 
+		
 	}
-	
-	public Animation directionDirector(GameContainer container)
-	{
-		if(container.getInput().isKeyDown(Input.KEY_D))
-		{
-			correctAnimation = truckRightAni;
-			lastKeyPressed = 'd';
-		}
-		else if(container.getInput().isKeyDown(Input.KEY_A))
-		{
-			correctAnimation = truckLeftAni;
-			lastKeyPressed = 'a';
-		}
-		else if(container.getInput().isKeyDown(Input.KEY_W))
-		{
-			correctAnimation = truckUpAni;
-			lastKeyPressed = 'w';
-		}
-		else if(container.getInput().isKeyDown(Input.KEY_S))
-		{
-			correctAnimation = truckDownAni;
-			lastKeyPressed = 's';
-		}
-		else if(lastKeyPressed == 'd')
-			correctAnimation = truckRightStillAni;
-		
-		else if(lastKeyPressed == 'a')
-			correctAnimation = truckLeftStillAni;
-		
-		else if(lastKeyPressed == 'w')
-			correctAnimation = truckUpStillAni;
-		
-		else if(lastKeyPressed == 's')
-			correctAnimation = truckDownStillAni;
-		
-		else
-			correctAnimation = truckRightStillAni;
-		
-		return correctAnimation;
-	}	
 	
 	public boolean collision()
 	{	
 		for (int i = 0; i < roads.length; i++)
 		{
-			if (carBox.intersects(roads[i]))
+			if (player.getHitbox().intersects(roads[i]))
 				return true;
 		}
 		
