@@ -71,7 +71,7 @@ public class Player extends Vehicle
 		else if(lastKeyPressed == 's')
 			return truckDownStillAni;
 		
-		return truckRightAni;
+		return truckRightStillAni;
 		
 	}
 
