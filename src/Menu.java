@@ -1,7 +1,10 @@
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -18,30 +21,63 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class Menu extends BasicGameState
 {
+	private Music music;
+	private Sound exitSound;
 
-	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
-	{
+
+	public Menu(int menu) {
 		
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException
+	public void init(GameContainer container, StateBasedGame sbg) throws SlickException
 	{
-		g.drawString("This will be the menu state", 50, 50);
+		
+		music = new Music("sounds/background1.wav");
+		music.setVolume(0.2f);
+		music.loop();
+		exitSound = new Sound("sounds/exit.wav");
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame sbg, int arg2) throws SlickException
+	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException
 	{
-		if(container.getInput().isKeyPressed(Input.KEY_SPACE))
-			sbg.enterState(0, new FadeOutTransition(), new FadeInTransition());
+//		Image menuImage = new Image("sounds/menuBackground.png");
+//		g.drawImage(menuImage, 10, 10);
+		
+		Image map = new Image("Sprites/startMenu.png");
+		g.drawImage(map,10,10);
+		
+	}
+//	 Notification that we've entered this game state
+//		public void enter(GameContainer container, StateBasedGame sbg) {
+//			music.setVolume(0.2f);
+//			music.loop();
+//						
+//		}
+
+	@Override
+	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException
+	{
+
+		if(container.getInput().isKeyPressed(Input.KEY_S)) {
+			sbg.enterState(1, new FadeOutTransition(), new FadeInTransition());
+			music.loop();
+			
+		}
+		
+		
+		else if(container.getInput().isKeyPressed(Input.KEY_ENTER)) {
+			sbg.enterState(4);
+		   		   
+		}
+		
 	}
 
 	@Override
 	public int getID()
 	{
-		return 1;
+		return 0;
 	}
 
 }

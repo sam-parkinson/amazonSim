@@ -3,6 +3,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
@@ -13,7 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Map extends BasicGameState
 {
 	
-	
+	private Music music;
 	private Image map = null;
 	private Image house = null;
 	private Rectangle carBox = null;
@@ -27,11 +28,15 @@ public class Map extends BasicGameState
 	private Animation correctAnimation;
 	private char lastKeyPressed;
 
-
+public Map(int state) {
+		
+	}
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
-	{
+	{ 
+		
+		
 		map = new Image("Sprites/map.png");
 		house = new Image("Sprites/HOUSE.png");
 		carBox = new Rectangle(475, 200, 23, 25);
@@ -78,7 +83,12 @@ public class Map extends BasicGameState
 		truckDownStillAni = new Animation(truckDownStill, 150);
 		truckLeftStillAni = new Animation(truckLeftStill, 150);
 		truckRightStillAni = new Animation(truckRightStill, 150);
+		
+		music = new Music("sounds/background.wav");
+		music.setVolume(0.2f);
+		music.loop();
 	}
+	
 
 	@Override
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g) throws SlickException
@@ -105,10 +115,18 @@ public class Map extends BasicGameState
 
 		
 	}
+//	 Notification that we've entered this game state
+//			public void enter(GameContainer container, StateBasedGame sbg) {
+//				music.setVolume(0.2f);
+//				music.loop();
+//				
+//			}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException
 	{
+		
+		
 		if(container.getInput().isKeyDown(Input.KEY_D))
 			movementX = .25f;
 
@@ -147,7 +165,10 @@ public class Map extends BasicGameState
 		truckDownAni.update(delta);
 		truckLeftAni.update(delta);
 		truckRightAni.update(delta);
-			
+		
+//		if(container.getInput().isKeyPressed(Input.KEY_E))
+//			sbg.enterState(3);
+//			
 	}
 	
 	
@@ -223,11 +244,12 @@ public class Map extends BasicGameState
 		return collision;	
 	}
 	
+	
 
 
 	@Override
 	public int getID()
 	{
-		return 0;
+		return 1;
 	}
 }

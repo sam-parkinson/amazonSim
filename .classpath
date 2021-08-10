@@ -15,5 +15,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/slick.jar" sourcepath="C:/SE320/libs/slick/src"/>
+	<classpathentry kind="lib" path="lib/jar/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/jar/jorbis-0.0.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

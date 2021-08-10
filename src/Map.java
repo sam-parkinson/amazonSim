@@ -3,7 +3,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
@@ -18,7 +20,13 @@ import org.newdawn.slick.state.transition.*;
 public class Map extends BasicGameState
 {
 	
+	private Music music; 
+	private Sound collisionSound;
+	private Sound packageDroppedSound;
+	private Sound pointRewardSound;
+	private Sound GameOverSound;
 	
+		
 	private Image map = null;
 	
 	private Building[] buildings = new Building[3];
@@ -35,14 +43,28 @@ public class Map extends BasicGameState
 	private char lastKeyPressed;
 
 
+	public Map(int map) {
+		super();
+	}
+
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
+	public void init(GameContainer container, StateBasedGame arg1) throws SlickException
 	{
+		music = new Music("sounds/background2.wav");
+		music.setVolume(0.1f); 
+		music.loop(); 
+					
+		
+		collisionSound = new Sound("sounds/collision.wav");
+		packageDroppedSound = new Sound ("sounds/packagedropped.wav");
+		pointRewardSound = new Sound ("sounds/pointReward.wav");
+		GameOverSound = new Sound ("sounds/gover.wav");
+		
 		map = new Image("Sprites/map.png");							// 1280 by 720
 		
 		// TODO: Put building generation in its own function called here
 		
-		// hitboxes are 32 pixels away from border of buildings
+		// hit boxes are 32 pixels away from border of buildings
 		buildings[0] = new House("Sprites/buildings/HOUSE.png", 368, 286);
 		buildings[1] = new House("Sprites/buildings/HOUSE.png", 736, 148);
 		buildings[2] = new Store("Sprites/buildings/Shoppe.png", 128, 498);  // use this height for top of lowest horizontal road
@@ -127,6 +149,7 @@ public class Map extends BasicGameState
 	@Override
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException
 	{
+		
 		if(container.getInput().isKeyDown(Input.KEY_D))
 			movementX = .25f;
 
@@ -141,6 +164,7 @@ public class Map extends BasicGameState
 		if(collision())
 		{
 			carBox.setX(carBox.getX() - movementX);
+			
 		}
 		
 		
@@ -158,6 +182,7 @@ public class Map extends BasicGameState
 		if(collision())
 		{
 			carBox.setY(carBox.getY() - movementY);
+			
 		}
 		
 		truckUpAni.update(delta);
@@ -211,30 +236,50 @@ public class Map extends BasicGameState
 	
 	public boolean collision()
 	{	
-		if(carBox.intersects(wall1))
+		if(carBox.intersects(wall1)) {
 			collision = true;
-		else if(carBox.intersects(wall2))
+		collisionSound.play();
+		}
+		else if(carBox.intersects(wall2)) {
 			collision = true;
-		else if(carBox.intersects(wall3))
+			collisionSound.play();
+			}
+		else if(carBox.intersects(wall3)) {
 			collision = true;
-		else if(carBox.intersects(wall4))
+			collisionSound.play();
+		}
+		else if(carBox.intersects(wall4)) {
 			collision = true;
-		else if(carBox.intersects(wall5))
+			collisionSound.play();
+		}
+		else if(carBox.intersects(wall5)) {
 			collision = true;
-		else if(carBox.intersects(wall6))
+			collisionSound.play();
+		}
+		else if(carBox.intersects(wall6)) {
 			collision = true;
-		else if(carBox.intersects(wall7))
+			collisionSound.play();
+		}
+		else if(carBox.intersects(wall7)) {
 			collision = true;
-		else if(carBox.intersects(wall8))
+			collisionSound.playAt(-1,0,0);
+		}
+		else if(carBox.intersects(wall8)) {
 			collision = true;
-		else if(carBox.intersects(wall9))
+			collisionSound.play();
+		}
+		else if(carBox.intersects(wall9)) {
 			collision = true;
-		else if(carBox.intersects(wall10))
+			collisionSound.play();}
+		else if(carBox.intersects(wall10)) {
 			collision = true;
-		else if(carBox.intersects(wall11))
+			collisionSound.play();}
+		else if(carBox.intersects(wall11)) {
 			collision = true;
-		else if(carBox.intersects(mapBorder))
+			collisionSound.play();}
+		else if(carBox.intersects(mapBorder)) {
 			collision = true;
+			collisionSound.play();}
 		else
 			collision = false;
 		return collision;
@@ -244,6 +289,6 @@ public class Map extends BasicGameState
 	@Override
 	public int getID()
 	{
-		return 0;
+		return 1;
 	}
 }
