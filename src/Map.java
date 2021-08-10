@@ -72,19 +72,27 @@ public class Map extends BasicGameState
 	@Override
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g) throws SlickException
 	{
-		
+		// Draw the roads
 		for (int i = 0; i < roads.length; i++)
 		{
 			g.draw(roads[i]);
 		}
-	
+		
+		// Draw the outlines of the buildings
+		for (int i = 0; i < buildings.length; i++)
+		{
+			g.draw(buildings[i].getZone());
+			g.draw(buildings[i].getHitbox());
+		}
+		
+		// Draw the player and map, and animate the player
 		g.draw(player.getHitbox());
 		map.draw();
 		player.sprite(container).draw(player.getX(), player.getY());
 		
+		// Draw the images associated with the buildings
 		for (int i = 0; i < buildings.length; i++)
 		{
-			// TODO: When drawing buildings, also draw delivery zone around building
 			buildings[i].drawBuilding();
 		}
 		
@@ -133,9 +141,16 @@ public class Map extends BasicGameState
 	
 	public boolean collision()
 	{	
+		// Check to see if car colliding with edge of road
 		for (int i = 0; i < roads.length; i++)
 		{
 			if (player.getHitbox().intersects(roads[i]))
+				return true;
+		}
+		
+		for (int i = 0; i < buildings.length; i++)
+		{
+			if (player.getHitbox().intersects(buildings[i].getHitbox()))
 				return true;
 		}
 		
