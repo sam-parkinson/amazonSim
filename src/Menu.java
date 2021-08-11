@@ -2,9 +2,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -21,8 +19,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class Menu extends BasicGameState
 {
-	private Music music;
-	private Sound exitSound;
+	//private Sound exitSound;
 
 
 	public Menu(int menu) {
@@ -33,10 +30,9 @@ public class Menu extends BasicGameState
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException
 	{
 		
-		music = new Music("sounds/background1.wav");
-		music.setVolume(0.2f);
-		music.loop();
-		exitSound = new Sound("sounds/exit.wav");
+		GameMusic.menuMusic().setVolume(0.1f);
+		GameMusic.menuMusic().loop();
+		//exitSound = new Sound("sounds/exit.wav");
 	}
 
 	@Override
@@ -56,8 +52,7 @@ public class Menu extends BasicGameState
 
 		if(container.getInput().isKeyPressed(Input.KEY_S)) {
 			sbg.enterState(1, new FadeOutTransition(), new FadeInTransition());
-			music.loop();
-			
+			GameMusic.menuMusic().loop();			
 		}
 		
 		

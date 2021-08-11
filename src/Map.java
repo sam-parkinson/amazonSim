@@ -3,9 +3,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
@@ -19,14 +17,6 @@ import org.newdawn.slick.state.transition.*;
 
 public class Map extends BasicGameState
 {
-	
-	private Music music; 
-	private Sound collisionSound;
-	private Sound packageDroppedSound;
-	private Sound pointRewardSound;
-	private Sound GameOverSound;
-	
-		
 	private Image map = null;
 	
 	/**
@@ -49,15 +39,10 @@ public class Map extends BasicGameState
 	@Override
 	public void init(GameContainer container, StateBasedGame arg1) throws SlickException
 	{
-		music = new Music("sounds/background2.wav");
-		music.setVolume(0.1f); 
-		music.loop(); 
-					
 		
-		collisionSound = new Sound("sounds/collision.wav");
-		packageDroppedSound = new Sound ("sounds/packagedropped.wav");
-		pointRewardSound = new Sound ("sounds/pointReward.wav");
-		GameOverSound = new Sound ("sounds/gover.wav");
+		GameMusic.mapMusic().setVolume(0.1f);
+		GameMusic.mapMusic().loop();
+		
 		
 		map = new Image("Sprites/map.png");							// 1280 by 720
 		
@@ -151,80 +136,19 @@ public class Map extends BasicGameState
 		
 	}
 	
-	public boolean collision()
+	public boolean collision() throws SlickException
 	{	
 		for (int i = 0; i < roads.length; i++)
 		{
 			if (player.getHitbox().intersects(roads[i])) {
-				collisionSound.play();
+				
+				GameSounds.collisionSound().play();		
+				
 				return true;}
 		}
-		return false;
 		
-//		else if(lastKeyPressed == 'a')
-//			correctAnimation = truckLeftStillAni;
-//		
-//		else if(lastKeyPressed == 'w')
-//			correctAnimation = truckUpStillAni;
-//		
-//		else if(lastKeyPressed == 's')
-//			correctAnimation = truckDownStillAni;
-//		
-//		else
-//			correctAnimation = truckRightStillAni;
-//		
-//		return correctAnimation;
-//	}	
-//	
-//	public boolean collision()
-//	{	
-//		if(carBox.intersects(wall1)) {
-//			collision = true;
-//		collisionSound.play();
-//		}
-//		else if(carBox.intersects(wall2)) {
-//			collision = true;
-//			collisionSound.play();
-//			}
-//		else if(carBox.intersects(wall3)) {
-//			collision = true;
-//			collisionSound.play();
-//		}
-//		else if(carBox.intersects(wall4)) {
-//			collision = true;
-//			collisionSound.play();
-//		}
-//		else if(carBox.intersects(wall5)) {
-//			collision = true;
-//			collisionSound.play();
-//		}
-//		else if(carBox.intersects(wall6)) {
-//			collision = true;
-//			collisionSound.play();
-//		}
-//		else if(carBox.intersects(wall7)) {
-//			collision = true;
-//			collisionSound.playAt(-1,0,0);
-//		}
-//		else if(carBox.intersects(wall8)) {
-//			collision = true;
-//			collisionSound.play();
-//		}
-//		else if(carBox.intersects(wall9)) {
-//			collision = true;
-//			collisionSound.play();}
-//		else if(carBox.intersects(wall10)) {
-//			collision = true;
-//			collisionSound.play();}
-//		else if(carBox.intersects(wall11)) {
-//			collision = true;
-//			collisionSound.play();}
-//		else if(carBox.intersects(mapBorder)) {
-//			collision = true;
-//			collisionSound.play();}
-//		else
-//			collision = false;
-//		return collision;
+		return false;
+	
 		
 	}
 
