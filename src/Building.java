@@ -1,5 +1,6 @@
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  * 
@@ -34,10 +35,14 @@ public abstract class Building
 				e.printStackTrace();
 			}
 		}
-	} 
+	}
+	
+	private static final int ZONE_DIST = 8;
 	
 	protected int x;				// the x position of the top left corner;
 	protected int y;				// the y position of the top left corner;
+	private Rectangle zone;
+	private Rectangle hitbox;
 	private Image image;			// all buildings must have a picture indicating which building they are
 	private Status status;			// whether or not the building wants a package
 	
@@ -50,10 +55,12 @@ public abstract class Building
 	private int packagesDelivered;	// how many packages are dropped off at once
 	
 	/**
-	 * The Building constructor takes the location of the image depicting the building and creates
-	 * a new building set by default to inactive for delivery purposes
+	 * The Building constructor takes the location of the image depicting the building and the 
+	 * coordinates of the top left corner of the object, and creates a new Building as well
+	 * as its hitbox and the overlapping image
 	 * 
 	 * @param imageLocation The location where the image for the building is stored
+	 * @param x The x coordinate of the top left corner of the Building
 	 * @throws SlickException
 	 */
 	
@@ -62,6 +69,8 @@ public abstract class Building
 		this.x = x;
 		this.y = y;
 		this.image = new Image(imageLocation);
+		this.zone = new Rectangle(x, y, image.getWidth() + 2 * ZONE_DIST, image.getHeight() + 2 * ZONE_DIST);
+		this.hitbox = new Rectangle(x + ZONE_DIST, y + ZONE_DIST, image.getWidth(), image.getHeight());
 		this.status = Status.INACTIVE;
 	}
 	
@@ -86,17 +95,36 @@ public abstract class Building
 	}
 	
 	/**
+	 * The getZone method
+	 * @return The delivery zone for the building
+	 */
+	
+	public Rectangle getZone()
+	{
+		return this.zone;
+	}
+	
+	/**
+	 * The getHitbox method
+	 * @return The hitbox for the building, used to detect collisions
+	 */
+	
+	public Rectangle getHitbox()
+	{
+		return this.hitbox;
+	}
+	
+	/**
 	 * The drawBuilding method calls the draw method of the Building's Image provided by the Slick
 	 * library using the x and y coordinates provided when the Building was defined. It also draws
 	 * the flag representing the building's current delivery status above the building.
 	 */
 	
-	
 	public void drawBuilding()
 	{
-		image.draw(x,y);
+		image.draw(x + ZONE_DIST, y + ZONE_DIST);
 		// Flag is 32 by 32, midpoint of flag centered above midpoint of building
-		status.flag.draw(x - 16 + (image.getWidth()/2), y - 32);
+		status.flag.draw(x + (image.getWidth()/2), y - ZONE_DIST);
 	}
 	
 	/**

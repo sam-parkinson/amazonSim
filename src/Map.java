@@ -22,6 +22,8 @@ public class Map extends BasicGameState
 	/**
 	 *	The buildings field contains an array consisting of all of the buildings to be
 	 *	placed on the map.
+	 *
+	 *	There are currently 22 buildings
 	 */
 	private Building[] buildings = new Building[3];
 	
@@ -48,6 +50,7 @@ public class Map extends BasicGameState
 		
 		// TODO: Put building generation in its own function called here
 		
+		// running total of buildings: 21
 		// hitboxes are 32 pixels away from border of buildings
 		buildings[0] = new House("Sprites/buildings/HOUSE.png", 368, 272);
 		buildings[1] = new House("Sprites/buildings/HOUSE.png", 736, 128);
@@ -76,19 +79,27 @@ public class Map extends BasicGameState
 	@Override
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g) throws SlickException
 	{
-		
+		// Draw the roads
 		for (int i = 0; i < roads.length; i++)
 		{
 			g.draw(roads[i]);
 		}
-	
+		
+		// Draw the outlines of the buildings
+		for (int i = 0; i < buildings.length; i++)
+		{
+			g.draw(buildings[i].getZone());
+			g.draw(buildings[i].getHitbox());
+		}
+		
+		// Draw the player and map, and animate the player
 		g.draw(player.getHitbox());
 		map.draw();
 		player.sprite(container).draw(player.getX(), player.getY());
 		
+		// Draw the images associated with the buildings
 		for (int i = 0; i < buildings.length; i++)
 		{
-			// TODO: When drawing buildings, also draw delivery zone around building
 			buildings[i].drawBuilding();
 		}
 		
@@ -136,8 +147,14 @@ public class Map extends BasicGameState
 		
 	}
 	
-	public boolean collision() throws SlickException
+	/**
+	 * The collision method checks each road and building to see if the player character
+	 * is contacting or overlapping with any of them.
+	 * @return Whether or not the player character is colliding with a road or building
+	 */
+	
 	{	
+		// Check to see if car colliding with edge of road
 		for (int i = 0; i < roads.length; i++)
 		{
 			if (player.getHitbox().intersects(roads[i])) {
@@ -145,6 +162,12 @@ public class Map extends BasicGameState
 				GameSounds.collisionSound().play();		
 				
 				return true;}
+		}
+		
+		for (int i = 0; i < buildings.length; i++)
+		{
+			if (player.getHitbox().intersects(buildings[i].getHitbox()))
+				return true;
 		}
 		
 		return false;
