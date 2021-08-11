@@ -152,7 +152,7 @@ public class Map extends BasicGameState
 	 * is contacting or overlapping with any of them.
 	 * @return Whether or not the player character is colliding with a road or building
 	 */
-	
+	public boolean collision() throws SlickException
 	{	
 		// Check to see if car colliding with edge of road
 		for (int i = 0; i < roads.length; i++)
