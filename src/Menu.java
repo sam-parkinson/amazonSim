@@ -42,19 +42,13 @@ public class Menu extends BasicGameState
 	@Override
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException
 	{
-//		Image menuImage = new Image("sounds/menuBackground.png");
-//		g.drawImage(menuImage, 10, 10);
+        g.drawString("Press S for start\nPress Enter for exit", 50, 50);
 		
 		Image map = new Image("Sprites/startMenu.png");
 		g.drawImage(map,10,10);
 		
 	}
-//	 Notification that we've entered this game state
-//		public void enter(GameContainer container, StateBasedGame sbg) {
-//			music.setVolume(0.2f);
-//			music.loop();
-//						
-//		}
+
 
 	@Override
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException
