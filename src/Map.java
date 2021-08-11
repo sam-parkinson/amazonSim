@@ -24,6 +24,8 @@ public class Map extends BasicGameState
 	/**
 	 *	The buildings field contains an array consisting of all of the buildings to be
 	 *	placed on the map.
+	 *
+	 *	There are currently 22 buildings
 	 */
 	private Building[] buildings = new Building[3];
 	
@@ -44,6 +46,7 @@ public class Map extends BasicGameState
 		
 		// TODO: Put building generation in its own function called here
 		
+		// running total of buildings: 21
 		// hitboxes are 32 pixels away from border of buildings
 		buildings[0] = new House("Sprites/buildings/HOUSE.png", 368, 272);
 		buildings[1] = new House("Sprites/buildings/HOUSE.png", 736, 128);

@@ -35,7 +35,9 @@ public abstract class Building
 				e.printStackTrace();
 			}
 		}
-	} 
+	}
+	
+	private static final int ZONE_DIST = 8;
 	
 	protected int x;				// the x position of the top left corner;
 	protected int y;				// the y position of the top left corner;
@@ -67,8 +69,8 @@ public abstract class Building
 		this.x = x;
 		this.y = y;
 		this.image = new Image(imageLocation);
-		this.zone = new Rectangle(x, y, image.getWidth() + 32, image.getHeight() + 32);
-		this.hitbox = new Rectangle(x + 16, y + 16, image.getWidth(), image.getHeight());
+		this.zone = new Rectangle(x, y, image.getWidth() + 2 * ZONE_DIST, image.getHeight() + 2 * ZONE_DIST);
+		this.hitbox = new Rectangle(x + ZONE_DIST, y + ZONE_DIST, image.getWidth(), image.getHeight());
 		this.status = Status.INACTIVE;
 	}
 	
@@ -120,9 +122,9 @@ public abstract class Building
 	
 	public void drawBuilding()
 	{
-		image.draw(x + 16, y + 16);
+		image.draw(x + ZONE_DIST, y + ZONE_DIST);
 		// Flag is 32 by 32, midpoint of flag centered above midpoint of building
-		status.flag.draw(x + (image.getWidth()/2), y - 16);
+		status.flag.draw(x + (image.getWidth()/2), y - ZONE_DIST);
 	}
 	
 	/**
