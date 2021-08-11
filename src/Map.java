@@ -1,12 +1,9 @@
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.*;
@@ -34,7 +31,6 @@ public class Map extends BasicGameState
 	private Polygon[] roads = new Polygon[12];
 	
 	private Player player;
-	private Rectangle deliveryZone = null;
 	private float movementX, movementY;
 
 
@@ -59,9 +55,10 @@ public class Map extends BasicGameState
 		player = new Player(475, 200, 23, 25);
 		
 		/*
+			TODO: Potentially put road generation in its own function
 		 	Below are the polygons defining the wall edges, which are used to bound the car's movement
 		*/
-		roads[0] = new Polygon(new float[]{0, 0, 1280, 0, 1280, 720, 0, 720});		// This is the map edge
+		roads[0] = new Polygon(new float[] {0, 0, 1280, 0, 1280, 720, 0, 720});		// This is the map edge
 		roads[1] = new Polygon(new float[] {118, 124, 471, 124, 471, 339, 273, 339, 273, 396, 471, 396, 471, 565, 118, 565});
 		roads[2] = new Polygon(new float[] {0, 0, 62, 0, 62, 68, 0, 68});
 		roads[3] = new Polygon(new float[] {117, 0, 117, 68, 527, 68, 527, 196, 1076, 196, 1076, 0});
@@ -142,9 +139,6 @@ public class Map extends BasicGameState
 			player.setY(-movementY);
 		}
 		
-		if(container.getInput().isKeyPressed(Input.KEY_SPACE))
-			sbg.enterState(1, new FadeOutTransition(), new FadeInTransition()); 
-		
 	}
 	
 	/**
@@ -157,17 +151,20 @@ public class Map extends BasicGameState
 		// Check to see if car colliding with edge of road
 		for (int i = 0; i < roads.length; i++)
 		{
-			if (player.getHitbox().intersects(roads[i])) {
-				
+			if (player.getHitbox().intersects(roads[i])) 
+			{
 				GameSounds.collisionSound().play();		
-				
-				return true;}
+				return true;
+			}
 		}
 		
 		for (int i = 0; i < buildings.length; i++)
 		{
 			if (player.getHitbox().intersects(buildings[i].getHitbox()))
+			{
+				GameSounds.collisionSound().play();		
 				return true;
+			}
 		}
 		
 		return false;
