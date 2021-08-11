@@ -155,74 +155,76 @@ public class Map extends BasicGameState
 	{	
 		for (int i = 0; i < roads.length; i++)
 		{
-			if (player.getHitbox().intersects(roads[i]))
-				return true;
+			if (player.getHitbox().intersects(roads[i])) {
+				collisionSound.play();
+				return true;}
 		}
+		return false;
 		
-		else if(lastKeyPressed == 'a')
-			correctAnimation = truckLeftStillAni;
-		
-		else if(lastKeyPressed == 'w')
-			correctAnimation = truckUpStillAni;
-		
-		else if(lastKeyPressed == 's')
-			correctAnimation = truckDownStillAni;
-		
-		else
-			correctAnimation = truckRightStillAni;
-		
-		return correctAnimation;
-	}	
-	
-	public boolean collision()
-	{	
-		if(carBox.intersects(wall1)) {
-			collision = true;
-		collisionSound.play();
-		}
-		else if(carBox.intersects(wall2)) {
-			collision = true;
-			collisionSound.play();
-			}
-		else if(carBox.intersects(wall3)) {
-			collision = true;
-			collisionSound.play();
-		}
-		else if(carBox.intersects(wall4)) {
-			collision = true;
-			collisionSound.play();
-		}
-		else if(carBox.intersects(wall5)) {
-			collision = true;
-			collisionSound.play();
-		}
-		else if(carBox.intersects(wall6)) {
-			collision = true;
-			collisionSound.play();
-		}
-		else if(carBox.intersects(wall7)) {
-			collision = true;
-			collisionSound.playAt(-1,0,0);
-		}
-		else if(carBox.intersects(wall8)) {
-			collision = true;
-			collisionSound.play();
-		}
-		else if(carBox.intersects(wall9)) {
-			collision = true;
-			collisionSound.play();}
-		else if(carBox.intersects(wall10)) {
-			collision = true;
-			collisionSound.play();}
-		else if(carBox.intersects(wall11)) {
-			collision = true;
-			collisionSound.play();}
-		else if(carBox.intersects(mapBorder)) {
-			collision = true;
-			collisionSound.play();}
-		else
-			collision = false;
-		return collision;
+//		else if(lastKeyPressed == 'a')
+//			correctAnimation = truckLeftStillAni;
+//		
+//		else if(lastKeyPressed == 'w')
+//			correctAnimation = truckUpStillAni;
+//		
+//		else if(lastKeyPressed == 's')
+//			correctAnimation = truckDownStillAni;
+//		
+//		else
+//			correctAnimation = truckRightStillAni;
+//		
+//		return correctAnimation;
+//	}	
+//	
+//	public boolean collision()
+//	{	
+//		if(carBox.intersects(wall1)) {
+//			collision = true;
+//		collisionSound.play();
+//		}
+//		else if(carBox.intersects(wall2)) {
+//			collision = true;
+//			collisionSound.play();
+//			}
+//		else if(carBox.intersects(wall3)) {
+//			collision = true;
+//			collisionSound.play();
+//		}
+//		else if(carBox.intersects(wall4)) {
+//			collision = true;
+//			collisionSound.play();
+//		}
+//		else if(carBox.intersects(wall5)) {
+//			collision = true;
+//			collisionSound.play();
+//		}
+//		else if(carBox.intersects(wall6)) {
+//			collision = true;
+//			collisionSound.play();
+//		}
+//		else if(carBox.intersects(wall7)) {
+//			collision = true;
+//			collisionSound.playAt(-1,0,0);
+//		}
+//		else if(carBox.intersects(wall8)) {
+//			collision = true;
+//			collisionSound.play();
+//		}
+//		else if(carBox.intersects(wall9)) {
+//			collision = true;
+//			collisionSound.play();}
+//		else if(carBox.intersects(wall10)) {
+//			collision = true;
+//			collisionSound.play();}
+//		else if(carBox.intersects(wall11)) {
+//			collision = true;
+//			collisionSound.play();}
+//		else if(carBox.intersects(mapBorder)) {
+//			collision = true;
+//			collisionSound.play();}
+//		else
+//			collision = false;
+//		return collision;
 		
 	}
 

@@ -13,9 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameStateSelector extends StateBasedGame
 {
 	public static final String title = "Amazon Simulator!";// Title for a game
-//	public static final int menu = 0; // menu state
-//	public static final int map = 1; // map state
-//	public static final int gameOver = 2; // game over state
+
 
 	/**
 	 * The one-arg constructor calls the StateBasedGame constructor
@@ -24,11 +22,7 @@ public class GameStateSelector extends StateBasedGame
 	 public GameStateSelector(String title)
 		{
 			super(title);
-//			this.addState(new Menu(menu));
-//			this.addState(new Map(map));
-//			this.addState(new GameOver(gameOver));
-			
-			
+					
 		}
 
 	public static void main(String[] args) throws SlickException
@@ -53,12 +47,9 @@ public class GameStateSelector extends StateBasedGame
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException
 	{
-//		this.getState(menu).init(container, this);
-//		this.getState(map).init(container, this);
-//		this.getState(gameOver).init(container, this);
-//		this.enterState(menu);
+
 		this.addState(new Menu(0));
-		this.addState(new Map(1));
+		this.addState(new Map());
 		this.addState(new GameOver(2));
 		
 		
