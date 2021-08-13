@@ -27,15 +27,20 @@ public class GameStateSelector extends StateBasedGame
 
 	public static void main(String[] args) throws SlickException
 	{
-		try {
-			// create a window that will hold computer game 
+		try 
+		{
+		// create a window that will hold computer game 
 		AppGameContainer app = new AppGameContainer(new GameStateSelector(title));
 		
 		app.setDisplayMode(1280, 720, false);
 		app.setAlwaysRender(true);
 		
-		app.start();}
-		catch(SlickException e) {
+		app.setTargetFrameRate(60);
+		
+		app.start();
+		}
+		catch(SlickException e) 
+		{
 			e.printStackTrace();
 		}
 	}

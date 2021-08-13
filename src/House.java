@@ -1,5 +1,12 @@
 import org.newdawn.slick.SlickException;
 
+/**
+ * 
+ * The House class extends the Building abstract class to create a house to which
+ * packages can be delivered.
+ *
+ */
+
 public class House extends Building
 {
 	

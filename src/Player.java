@@ -4,6 +4,11 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
+/**
+ * The Player class implements the player's character, which is a vehicle
+ * whose animations respond to the player inputs
+ */
+
 public class Player extends Vehicle
 {
 	private SpriteSheet truckRight, truckLeft, truckUp, truckDown, 
@@ -11,6 +16,16 @@ public class Player extends Vehicle
 	private Animation truckRightAni, truckLeftAni, truckUpAni, truckDownAni, 
 		truckRightStillAni, truckLeftStillAni, truckUpStillAni, truckDownStillAni;
 	private char lastKeyPressed;
+	
+	/**
+	 * The four-arg constructor defines the player's hitbox and the spritesheets
+	 * and animations used
+	 * @param x The starting x coordinate of the top left corner of the player
+	 * @param y The starting y coordinate of the top left corner of the player
+	 * @param width The width of the player's hitbox and sprite
+	 * @param height The height of the player's hitbox and sprite
+	 * @throws SlickException
+	 */
 	
 	public Player(int x, int y, int height, int width) throws SlickException
 	{
@@ -34,6 +49,12 @@ public class Player extends Vehicle
 		truckLeftStillAni = new Animation(truckLeftStill, 150);
 		truckRightStillAni = new Animation(truckRightStill, 150);
 	}
+	
+	/**
+	 * The sprite method is responsible for tracking the animation that should be displayed
+	 * based on the direction key being held down or which was most recently pressed.
+	 * @param container The container in which the game is hosted.
+	 */
 	
 	@Override
 	public Animation sprite(GameContainer container)
@@ -74,6 +95,12 @@ public class Player extends Vehicle
 		return truckRightStillAni;
 		
 	}
+	
+	/**
+	 * The updateAnimation method updates each of the vehicle animations to
+	 * display the correct frame.
+	 * @param delta The amount of time passed since the last update
+	 */
 
 	@Override
 	public void updateAnimation(long delta) {

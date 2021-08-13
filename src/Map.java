@@ -107,10 +107,10 @@ public class Map extends BasicGameState
 	{
 		
 		if(container.getInput().isKeyDown(Input.KEY_D))
-			movementX = .25f;
+			movementX = 4f;
 
 		else if(container.getInput().isKeyDown(Input.KEY_A))
-			movementX = -.25f;
+			movementX = -4f;
 		
 		else
 			movementX = 0;
@@ -119,15 +119,16 @@ public class Map extends BasicGameState
 		
 		if(collision())
 		{
+			GameSounds.collisionSound().play();	
 			player.setX(-movementX);
 		}
 		
 		
 		if(container.getInput().isKeyDown(Input.KEY_W))
-			movementY = -.25f;
+			movementY = -4f;
 
 		else if(container.getInput().isKeyDown(Input.KEY_S))
-			movementY = .25f;
+			movementY = 4f;
 		
 		else
 			movementY = 0;
@@ -136,6 +137,7 @@ public class Map extends BasicGameState
 		
 		if(collision())
 		{
+			GameSounds.collisionSound().play();	
 			player.setY(-movementY);
 		}
 		
@@ -153,7 +155,7 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(roads[i])) 
 			{
-				GameSounds.collisionSound().play();		
+				// GameSounds.collisionSound().play();		
 				return true;
 			}
 		}
@@ -162,10 +164,16 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(buildings[i].getHitbox()))
 			{
-				GameSounds.collisionSound().play();		
+				// GameSounds.collisionSound().play();		
 				return true;
 			}
 		}
+		
+		// for each other vehicle
+		// check to see if collision
+		// play collision sounds
+		// deduct money (cooldown on this one, avoid player losing entire score b/c player doesn't move fast enough)
+		// return true
 		
 		return false;
 	
