@@ -32,7 +32,10 @@ public class Map extends BasicGameState
 	
 	private Player player;
 	private float movementX, movementY;
-
+	
+	private int time1 = 60;
+	private int time2 = 10;
+	
 
 	@Override
 	public void init(GameContainer container, StateBasedGame arg1) throws SlickException
@@ -100,6 +103,8 @@ public class Map extends BasicGameState
 			buildings[i].drawBuilding();
 		}
 		
+		g.drawString(timer(container, arg1) + "", 640, 10);
+		
 	}
 
 	@Override
@@ -117,7 +122,7 @@ public class Map extends BasicGameState
 		
 		player.setX(movementX);
 		
-		if(collision())
+		if(collision(container))
 		{
 			GameSounds.collisionSound().play();	
 			player.setX(-movementX);
@@ -135,12 +140,28 @@ public class Map extends BasicGameState
 		
 		player.setY(movementY);
 		
-		if(collision())
+		if(collision(container))
 		{
 			GameSounds.collisionSound().play();	
 			player.setY(-movementY);
 		}
 		
+		
+	}
+	
+	public int timer(GameContainer container, StateBasedGame sbg)
+	{
+		time1--;
+		if(time1 == 0)
+		{
+			time1 = 60;
+			time2--;
+		}
+		
+		if(time2 == 0)
+			sbg.enterState(2);
+		
+		return time2;
 	}
 	
 	/**
@@ -148,14 +169,15 @@ public class Map extends BasicGameState
 	 * is contacting or overlapping with any of them.
 	 * @return Whether or not the player character is colliding with a road or building
 	 */
-	public boolean collision() throws SlickException
+	public boolean collision(GameContainer container) throws SlickException
 	{	
 		// Check to see if car colliding with edge of road
 		for (int i = 0; i < roads.length; i++)
 		{
 			if (player.getHitbox().intersects(roads[i])) 
 			{
-				// GameSounds.collisionSound().play();		
+				
+				GameSounds.collisionSound(container).play();		
 				return true;
 			}
 		}
@@ -164,7 +186,7 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(buildings[i].getHitbox()))
 			{
-				// GameSounds.collisionSound().play();		
+				GameSounds.collisionSound(container).play();		
 				return true;
 			}
 		}
