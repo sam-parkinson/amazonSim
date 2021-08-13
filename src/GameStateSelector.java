@@ -34,6 +34,8 @@ public class GameStateSelector extends StateBasedGame
 		app.setDisplayMode(1280, 720, false);
 		app.setAlwaysRender(true);
 		
+		app.setTargetFrameRate(60);
+		
 		app.start();}
 		catch(SlickException e) {
 			e.printStackTrace();
