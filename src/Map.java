@@ -122,9 +122,8 @@ public class Map extends BasicGameState
 		
 		player.setX(movementX);
 		
-		if(collision(container))
+		if(collision())
 		{
-			GameSounds.collisionSound().play();	
 			player.setX(-movementX);
 		}
 		
@@ -140,9 +139,8 @@ public class Map extends BasicGameState
 		
 		player.setY(movementY);
 		
-		if(collision(container))
+		if(collision())
 		{
-			GameSounds.collisionSound().play();	
 			player.setY(-movementY);
 		}
 		
@@ -169,7 +167,7 @@ public class Map extends BasicGameState
 	 * is contacting or overlapping with any of them.
 	 * @return Whether or not the player character is colliding with a road or building
 	 */
-	public boolean collision(GameContainer container) throws SlickException
+	public boolean collision() throws SlickException
 	{	
 		// Check to see if car colliding with edge of road
 		for (int i = 0; i < roads.length; i++)
@@ -177,7 +175,7 @@ public class Map extends BasicGameState
 			if (player.getHitbox().intersects(roads[i])) 
 			{
 				
-				GameSounds.collisionSound(container).play();		
+				GameSounds.collisionSound().play();		
 				return true;
 			}
 		}
@@ -186,7 +184,7 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(buildings[i].getHitbox()))
 			{
-				GameSounds.collisionSound(container).play();		
+				GameSounds.collisionSound().play();		
 				return true;
 			}
 		}
