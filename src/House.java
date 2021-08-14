@@ -31,4 +31,7 @@ public class House extends Building
 		// Standard scoring
 	}
 	
+	// get and set drop zone function added here
+	// generate drop zones in building
+	
 }

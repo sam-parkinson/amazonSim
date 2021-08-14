@@ -34,7 +34,7 @@ public class Map extends BasicGameState
 	 * 	The roads field contains an array consisting of all of the edges of the roads on which
 	 *  vehicle objects can drive.
 	 */
-	private Polygon[] roads = new Polygon[7];
+	private Polygon[] roads = new Polygon[11];
 	
 	private Rectangle[] houseDropZones = new Rectangle[20];
 	private Rectangle[] storeDropZones = new Rectangle[6];
@@ -44,7 +44,7 @@ public class Map extends BasicGameState
 	private float movementX, movementY;
 	
 	private int time1 = 60;
-	private int time2 = 10;
+	private int time2 = 25;
 	
 	private int score = 20;
 	
@@ -62,7 +62,7 @@ public class Map extends BasicGameState
 		coin = new SpriteSheet("Sprites/bezoBucks.png", 32, 32);
 		coinAni = new Animation(coin, 100);
 		
-		map = new Image("Sprites/map2.png");							// 1280 by 720
+		map = new Image("Sprites/map.png");							// 1280 by 720
 		
 		// TODO: Put building generation in its own function called here
 		
@@ -81,16 +81,19 @@ public class Map extends BasicGameState
 		roads[0] = new Polygon(new float[] {0, 0, 1280, 0, 1280, 720, 0, 720});		// This is the map edge
 		roads[1] = new Polygon(new float[] {1200, 640, 1280, 640, 1280, 720, 1200, 720});
 		roads[2] = new Polygon(new float[] {0, 640, 1152, 640, 1152, 720, 0, 720});
-		roads[3] = new Polygon(new float[] {256, 384, 511, 384, 511, 432, 703, 432, 703, 591, 688, 591, 688, 463, 496, 463, 496, 
-				415, 271, 415, 271, 577, 655, 576, 655, 591, 256, 592});
-		roads[4] = new Polygon(new float[] {256, 272, 511, 272, 511, 335, 256, 335});
-		roads[5] = new Polygon(new float[] {560, 304, 768, 304, 768, 224, 927, 224, 927, 272, 1039, 272, 1039, 383, 960, 383, 960, 
-				351, 944, 351, 944, 335, 863, 335, 863, 351, 847, 351, 847, 464, 863, 464, 863, 480, 944, 480, 944, 464, 960, 464, 
-				960, 432, 1039, 432, 1039, 591, 752, 591, 752, 383, 560, 383});
-		roads[6] = new Polygon(new float[] {0, 591, 0, 0, 1280, 0, 1280, 591, 1088, 591, 1088, 223, 976, 223, 976, 144, 1184, 144, 1184, 
-				95, 927, 95, 927, 175, 719, 175, 719, 255, 560, 255, 560, 223, 144, 223, 144, 144, 688, 144, 688, 128, 704, 128, 
-				704, 112, 720, 112, 720, 95, 95, 95, 95, 272, 207, 272, 207, 383, 47, 383, 47, 432, 207, 432, 207, 495, 31, 495, 
-				31, 544, 207, 544, 207, 591});
+		roads[3] = new Polygon(new float[] {256, 384, 256, 432, 272, 432, 272, 384});
+		roads[4] = new Polygon(new float[] {256, 480, 272, 480, 272, 576, 640, 576, 640, 592, 256, 592});	
+		roads[5] = new Polygon(new float[] {256, 272, 512, 272, 512, 336, 256, 336});
+		roads[6] = new Polygon(new float[] {352, 384, 704, 384, 704, 464, 496, 464, 496, 416, 352, 416});
+		roads[7] = new Polygon(new float[] {688, 512, 704, 512, 704, 592, 688, 592});
+		roads[8] = new Polygon(new float[] {560, 272, 752, 272, 752, 224, 928, 224, 928, 272, 1040, 272, 
+				1040, 384, 960, 384, 960, 336, 848, 336, 848, 416, 752, 416, 752, 336, 560, 336});
+		roads[9] = new Polygon(new float[] {960, 432, 1040, 432, 1040, 592, 752, 592, 752, 464, 
+				848, 464, 848, 480, 960, 480});
+		roads[10] = new Polygon(new float[] {0, 592, 0, 0, 1280, 0, 1280, 592, 1088, 592, 1088, 224,
+				976, 224, 976, 144, 1184, 144, 1184, 96, 928, 96, 928, 176, 704, 176, 704, 224, 144, 224, 
+				144, 144, 688, 144, 688, 128, 704, 128, 704, 112, 720, 112, 720, 96, 96, 96, 96, 272, 208, 
+				272, 208, 384, 46, 384, 46, 432, 208, 432, 208, 496, 32, 496, 32, 544, 208, 544, 208, 592});
 		
 		
 		/**houseDropZones[0] = new Rectangle(160, 96, 32, 8);
@@ -146,13 +149,12 @@ public class Map extends BasicGameState
 		// Draw the outlines of the buildings
 		for (int i = 0; i < buildings.length; i++)
 		{
-			g.draw(buildings[i].getZone());
 			g.draw(buildings[i].getHitbox());
 		}
 		
 		// Draw the player and map, and animate the player
 		g.draw(player.getHitbox());
-		map.draw();
+		// map.draw();
 		player.sprite(container).draw(player.getX(), player.getY());
 		
 		// Draw the images associated with the buildings

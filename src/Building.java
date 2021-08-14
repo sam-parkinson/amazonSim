@@ -127,6 +127,7 @@ public abstract class Building
 		this.status = newStatus;
 	}
 	
+	// Add abstract method for drop zones
 	
 	/**
 	 * The score method must be implemented by any subclass of a building, what distinguishes building
