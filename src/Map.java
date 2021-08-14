@@ -9,7 +9,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.*;
 
 /**
- * The Map class defines the main game state
+ * The Map class defines the game state where gameplay occurs, and is responsible for
+ * either knowing or creating everything necessary for gameplay.
  */
 
 public class Map extends BasicGameState
@@ -88,7 +89,7 @@ public class Map extends BasicGameState
 		// Draw the outlines of the buildings
 		for (int i = 0; i < buildings.length; i++)
 		{
-			g.draw(buildings[i].getZone());
+			// g.draw(buildings[i].getZone());
 			g.draw(buildings[i].getHitbox());
 		}
 		
@@ -143,9 +144,16 @@ public class Map extends BasicGameState
 		{
 			player.setY(-movementY);
 		}
-		
-		
+			
 	}
+	
+	/**
+	 * The timer method counts down the seconds remaining in the game assuming a
+	 * constant framerate of 60 frames per second.
+	 * @param container The container in which the game is hosted
+	 * @param sbg The state-based game
+	 * @return
+	 */
 	
 	public int timer(GameContainer container, StateBasedGame sbg)
 	{

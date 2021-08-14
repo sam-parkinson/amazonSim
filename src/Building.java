@@ -37,11 +37,8 @@ public abstract class Building
 		}
 	}
 	
-	private static final int ZONE_DIST = 8;
-	
 	protected int x;				// the x position of the top left corner;
 	protected int y;				// the y position of the top left corner;
-	private Rectangle zone;
 	private Rectangle hitbox;
 	private Image image;			// all buildings must have a picture indicating which building they are
 	private Status status;			// whether or not the building wants a package
@@ -61,6 +58,7 @@ public abstract class Building
 	 * 
 	 * @param imageLocation The location where the image for the building is stored
 	 * @param x The x coordinate of the top left corner of the Building
+	 * @param y The y coordinate of the top left corner of the Building
 	 * @throws SlickException
 	 */
 	
@@ -69,8 +67,7 @@ public abstract class Building
 		this.x = x;
 		this.y = y;
 		this.image = new Image(imageLocation);
-		this.zone = new Rectangle(x, y, image.getWidth() + 2 * ZONE_DIST, image.getHeight() + 2 * ZONE_DIST);
-		this.hitbox = new Rectangle(x + ZONE_DIST, y + ZONE_DIST, image.getWidth(), image.getHeight());
+		this.hitbox = new Rectangle(x, y, image.getWidth(), image.getHeight());
 		this.status = Status.INACTIVE;
 	}
 	
@@ -95,16 +92,6 @@ public abstract class Building
 	}
 	
 	/**
-	 * The getZone method
-	 * @return The delivery zone for the building
-	 */
-	
-	public Rectangle getZone()
-	{
-		return this.zone;
-	}
-	
-	/**
 	 * The getHitbox method
 	 * @return The hitbox for the building, used to detect collisions
 	 */
@@ -122,9 +109,9 @@ public abstract class Building
 	
 	public void drawBuilding()
 	{
-		image.draw(x + ZONE_DIST, y + ZONE_DIST);
-		// Flag is 32 by 32, midpoint of flag centered above midpoint of building
-		status.flag.draw(x + (image.getWidth()/2), y - ZONE_DIST);
+		image.draw(x, y);
+		// TODO: draw flag in proper location
+		status.flag.draw(x + (image.getWidth()/2), y - 32);
 	}
 	
 	/**

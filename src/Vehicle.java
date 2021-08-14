@@ -4,7 +4,9 @@ import org.newdawn.slick.geom.Rectangle;
 
 /**
  * 
- * The Vehicle class implements a moving, animated vehicle
+ * The Vehicle abstract class implements a moving, animated vehicle that
+ * must be extended by a subclass which provides more concrete details
+ * about the animation of the vehicle.
  *
  */
 

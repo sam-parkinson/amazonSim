@@ -6,7 +6,7 @@ import org.newdawn.slick.SpriteSheet;
 
 /**
  * The Player class implements the player's character, which is a vehicle
- * whose animations respond to the player inputs
+ * whose animations respond to the player inputs.
  */
 
 public class Player extends Vehicle

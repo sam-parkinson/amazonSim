@@ -10,6 +10,14 @@ import org.newdawn.slick.SlickException;
 public class House extends Building
 {
 	
+	/**
+	 * The House constructor extends the superclass constructor
+	 * @param imageLocation The location where the image for the House is stored
+	 * @param x The x coordinate of the top left corner of the House
+	 * @param y The y coordinate of the top left corner of the House
+	 * @throws SlickException
+	 */
+	
 	public House(String imageLocation, int x, int y) throws SlickException 
 	{
 		super(imageLocation, x, y);
