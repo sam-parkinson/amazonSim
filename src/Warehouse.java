@@ -1,4 +1,5 @@
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  * 
@@ -13,6 +14,12 @@ public class Warehouse extends Building
 
 	public Warehouse(String imageLocation, int x, int y) throws SlickException {
 		super(imageLocation, x, y);
+	}
+	
+	@Override
+	public Rectangle getDropZone() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

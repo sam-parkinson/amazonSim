@@ -1,4 +1,5 @@
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  * 
@@ -9,9 +10,12 @@ import org.newdawn.slick.SlickException;
 
 public class House extends Building
 {
+	private static final int DROP_HEIGHT = 8;
+	private Rectangle dropZone;
 	
 	/**
-	 * The House constructor extends the superclass constructor
+	 * The House constructor extends the superclass constructor and creates the drop zone
+	 * for the House.
 	 * @param imageLocation The location where the image for the House is stored
 	 * @param x The x coordinate of the top left corner of the House
 	 * @param y The y coordinate of the top left corner of the House
@@ -21,17 +25,23 @@ public class House extends Building
 	public House(String imageLocation, int x, int y) throws SlickException 
 	{
 		super(imageLocation, x, y);
+		this.dropZone = new Rectangle(x, (y + getHitbox().getHeight()), (getHitbox().getWidth()), DROP_HEIGHT);
 	}
 	
-	// house is 52h, 32w (64h, 32w including whitespace)
+	/**
+	 * The getDropZone method
+	 * @return The delivery radius for the house.
+	 */
 
+	@Override
+	public Rectangle getDropZone() {
+		return this.dropZone;
+	}
+	
 	@Override
 	public void score() {
 		// TODO Auto-generated method stub
 		// Standard scoring
 	}
-	
-	// get and set drop zone function added here
-	// generate drop zones in building
-	
+
 }

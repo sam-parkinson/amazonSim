@@ -127,12 +127,19 @@ public abstract class Building
 		this.status = newStatus;
 	}
 	
-	// Add abstract method for drop zones
+	/**
+	 * The getDropZone method must be implemented by any subclass of a building, and returns
+	 * a rectangle defining the area in which packages can be delivered.
+	 * @return
+	 */
+	
+	public abstract Rectangle getDropZone();
 	
 	/**
-	 * The score method must be implemented by any subclass of a building, what distinguishes building
-	 * subclasses is the differences that occur when package delivery is completed.
+	 * The score method must be implemented by any subclass of a building, part of what distinguishes 
+	 * building subclasses is the differences that occur when package delivery is completed.
 	 */
+	
 	public abstract void score();
 	
 }

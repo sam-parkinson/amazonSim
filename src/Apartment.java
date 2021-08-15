@@ -1,4 +1,5 @@
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  * 
@@ -10,6 +11,9 @@ import org.newdawn.slick.SlickException;
 public class Apartment extends Building
 {
 
+	private static final int DROP_WIDTH = 8;
+	private static final int DROP_HEIGHT = 8;
+	private Rectangle dropZone;
 	/**
 	 * The Apartment constructor extends the superclass constructor
 	 * @param imageLocation The location where the image for the Apartment is stored
@@ -21,6 +25,13 @@ public class Apartment extends Building
 	public Apartment(String imageLocation, int x, int y) throws SlickException 
 	{
 		super(imageLocation, x, y);
+		this.dropZone = new Rectangle((x - DROP_WIDTH), y - (DROP_HEIGHT),
+				(getHitbox().getWidth() + (DROP_WIDTH * 2)), (getHitbox().getHeight() + (DROP_HEIGHT * 2)));
+	}
+	
+	@Override
+	public Rectangle getDropZone() {
+		return this.dropZone;
 	}
 
 	@Override
