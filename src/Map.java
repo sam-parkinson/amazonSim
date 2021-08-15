@@ -18,8 +18,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class Map extends BasicGameState
 {
-	private Image map = null;
-	
+	private Image map;
 	private SpriteSheet coin;
 	private Animation coinAni;
 	
@@ -27,7 +26,7 @@ public class Map extends BasicGameState
 	 *	The buildings field contains an array consisting of all of the buildings to be
 	 *	placed on the map.
 	 *
-	 *	There are currently 34 buildings
+	 *	There are currently 32 buildings
 	 */
 	private Building[] buildings = new Building[32];
 	
@@ -37,12 +36,6 @@ public class Map extends BasicGameState
 	 */
 	private Polygon[] roads = new Polygon[11];
 	
-	/*
-	private Rectangle[] houseDropZones = new Rectangle[20];
-	private Rectangle[] storeDropZones = new Rectangle[6];
-	private Rectangle[] aptDropZones = new Rectangle[8];
-	*/
-	
 	private Player player;
 	private float movementX, movementY;
 	
@@ -50,10 +43,6 @@ public class Map extends BasicGameState
 	private int time2 = 25;
 	
 	private int score = 20;
-	
-	private boolean inHouseZone;
-	private boolean inStoreZone;
-	private boolean inAptZone;
 
 	public Map(int map) {
 		// TODO Auto-generated constructor stub
@@ -65,20 +54,13 @@ public class Map extends BasicGameState
 		// plays the map background music
 		GameMusic.mapMusic().setVolume(0.02f);
 		GameMusic.mapMusic().loop();
-
-		
+	
 		coin = new SpriteSheet("Sprites/bezoBucks.png", 32, 32);
 		coinAni = new Animation(coin, 100);
 		
 		map = new Image("Sprites/map.png");							// 1280 by 720
 		
 		fillBuildings();
-		
-		/*
-		buildings[0] = new House("Sprites/buildings/HOUSE.png", 368, 272);
-		buildings[1] = new Apartment("Sprites/buildings/apartment.png", 736, 128);
-		buildings[2] = new Store("Sprites/buildings/Shoppe.png", 128, 498); 
-		*/
 		
 		player = new Player(300, 450, 23, 25);
 		
@@ -103,7 +85,6 @@ public class Map extends BasicGameState
 				144, 144, 688, 144, 688, 128, 704, 128, 704, 112, 720, 112, 720, 96, 96, 96, 96, 272, 208, 
 				272, 208, 384, 46, 384, 46, 432, 208, 432, 208, 496, 32, 496, 32, 544, 208, 544, 208, 592});
 		
-		
 		/*houseDropZones[0] = new Rectangle(160, 96, 32, 8);
 		houseDropZones[1] = new Rectangle(224, 96, 32, 8);
 		houseDropZones[2] = new Rectangle(288, 96, 32, 8);
@@ -124,15 +105,13 @@ public class Map extends BasicGameState
 		houseDropZones[17] = new Rectangle(160, 496, 32, 8);
 		houseDropZones[18] = new Rectangle(48, 592, 32, 8);
 		houseDropZones[19] = new Rectangle(128, 592, 32, 8);
-		
-		
+			
 		storeDropZones[0] = new Rectangle(96, 96, 18, 8);
 		storeDropZones[1] = new Rectangle(416, 416, 64, 56);
 		storeDropZones[2] = new Rectangle(272, 512, 64, 64);
 		storeDropZones[3] = new Rectangle(368, 512, 64, 64);
 		storeDropZones[4] = new Rectangle(464, 512, 64, 64);
 		storeDropZones[5] = new Rectangle(560, 512, 64, 64);
-		
 		
 		aptDropZones[0] = new Rectangle(96, 208, 8, 64);
 		aptDropZones[1] = new Rectangle(272, 336, 32, 8);
@@ -142,7 +121,6 @@ public class Map extends BasicGameState
 		aptDropZones[5] = new Rectangle(576, 384, 32, 8);
 		aptDropZones[6] = new Rectangle(640, 384, 32, 8);
 		aptDropZones[7] = new Rectangle(704, 384, 32, 8);*/
-		
 	}
 
 	@Override
@@ -172,12 +150,10 @@ public class Map extends BasicGameState
 			buildings[i].drawBuilding();
 		}
 		
+		// Draw the timer and score
 		g.drawString(timer(container, arg1) + "", 600, 10);
-		
 		coinAni.draw(650, 5);
-		
-		g.drawString(": " + score, 685, 10);
-		
+		g.drawString(": " + score, 685, 10);	
 	}
 
 	@Override
@@ -204,8 +180,7 @@ public class Map extends BasicGameState
 		
 		if(collision())
 			player.setX(-movementX);
-		
-		
+			
 		if(container.getInput().isKeyDown(Input.KEY_W))
 			movementY = -4f;
 
@@ -220,25 +195,37 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setY(-movementY);
 		
-		dropPackage(container);
-		
+		dropPackage(container);	
 	}
 	
-	public int timer(GameContainer container, StateBasedGame sbg) throws SlickException
+	@Override
+	public int getID()
+	{
+		return 1;
+	}
+	
+	/**
+	 * 
+	 * @param container
+	 * @param sbg
+	 * @return The time remaining in the game
+	 * @throws SlickException
+	 */
+	
+	private int timer(GameContainer container, StateBasedGame sbg) throws SlickException
 	{
 		time1--;
 		if(time1 == 0)
 		{
 			time1 = 60;
 			time2--;
-	
-			
 		}
 		
-		else if(time2 == 0) {
-			sbg.enterState(2);
-			
-		GameMusic.mapMusic().pause();}
+		else if(time2 == 0) 
+		{
+			sbg.enterState(2);		
+			GameMusic.mapMusic().pause();
+		}
 		       	
 		return time2;
 	}
@@ -248,7 +235,7 @@ public class Map extends BasicGameState
 	 * is contacting or overlapping with any of them.
 	 * @return Whether or not the player character is colliding with a road or building
 	 */
-	public boolean collision() throws SlickException
+	private boolean collision() throws SlickException
 	{	
 		// Check to see if car colliding with edge of road
 		for (int i = 0; i < roads.length; i++)
@@ -271,17 +258,17 @@ public class Map extends BasicGameState
 			}
 		}
 		
-		return false;
-	
-		
+		return false;	
 	}
 	
+	/**
+	 * The dropPackage function checks to see if the player is in a drop zone and pressing space,
+	 * then delivers packages and scores them accordingly.
+	 * @param container The container in which the game is hosted.
+	 * @throws SlickException
+	 */
 	
-	@Override
-	public int getID()
-	{
-		return 1;
-	}
+	// TODO: Update this function to be more feature-rich
 	
 	private void dropPackage(GameContainer container) throws SlickException
 	{
@@ -360,7 +347,6 @@ public class Map extends BasicGameState
 		i++;
 		
 		buildings[i] = new House("Sprites/buildings/HOUSE.png", 1008, 160);
-		
-		// TODO: Add floating buildings
+
 	}
 }
