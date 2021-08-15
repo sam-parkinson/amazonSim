@@ -52,8 +52,9 @@ public class GameStateSelector extends StateBasedGame
 	{
 
 		this.addState(new Menu(0));
-		this.addState(new Map());
+     	this.addState(new Map(1));
 		this.addState(new GameOver(2));
+		this.addState(new HowToPlay(3)); 
 		
 		
 		// TODO: add update screen state
