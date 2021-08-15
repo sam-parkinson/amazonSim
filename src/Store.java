@@ -36,9 +36,9 @@ public class Store extends Building
 	}
 
 	@Override
-	public void score() {
+	public int score() {
 		// TODO Auto-generated method stub
-		// 2x scoring
+		return 2;
 	}
 	
 }

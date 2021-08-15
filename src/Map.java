@@ -29,7 +29,7 @@ public class Map extends BasicGameState
 	 *
 	 *	There are currently 34 buildings
 	 */
-	private Building[] buildings = new Building[27];
+	private Building[] buildings = new Building[32];
 	
 	/**
 	 * 	The roads field contains an array consisting of all of the edges of the roads on which
@@ -37,9 +37,11 @@ public class Map extends BasicGameState
 	 */
 	private Polygon[] roads = new Polygon[11];
 	
+	/*
 	private Rectangle[] houseDropZones = new Rectangle[20];
 	private Rectangle[] storeDropZones = new Rectangle[6];
 	private Rectangle[] aptDropZones = new Rectangle[8];
+	*/
 	
 	private Player player;
 	private float movementX, movementY;
@@ -52,12 +54,6 @@ public class Map extends BasicGameState
 	private boolean inHouseZone;
 	private boolean inStoreZone;
 	private boolean inAptZone;
-
-	
-
-
-
-	
 
 	public Map(int map) {
 		// TODO Auto-generated constructor stub
@@ -76,7 +72,6 @@ public class Map extends BasicGameState
 		
 		map = new Image("Sprites/map.png");							// 1280 by 720
 		
-		// TODO: Put building generation in its own function called here
 		fillBuildings();
 		
 		/*
@@ -189,7 +184,8 @@ public class Map extends BasicGameState
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException
 	{  
 
-		if (container.getInput().isKeyPressed(Input.KEY_B)) {
+		if (container.getInput().isKeyPressed(Input.KEY_B)) 
+		{
 			sbg.enterState(1);
 		}
 		if(container.getInput().isKeyPressed(Input.KEY_ENTER)) 
@@ -224,15 +220,8 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setY(-movementY);
 		
+		dropPackage(container);
 		
-		/**if(inHouseDropZone(container))
-			house.score();
-				
-		if(inStoreDropZone(container))
-			store.score();
-		
-		if(inAptDropZone(container))
-			apt.score();*/
 	}
 	
 	public int timer(GameContainer container, StateBasedGame sbg) throws SlickException
@@ -272,6 +261,7 @@ public class Map extends BasicGameState
 			}
 		}
 		
+		// Check to see if car colliding with edge of building
 		for (int i = 0; i < buildings.length; i++)
 		{
 			if (player.getHitbox().intersects(buildings[i].getHitbox()))
@@ -287,41 +277,19 @@ public class Map extends BasicGameState
 	}
 	
 	
-	/*public boolean inHouseDropZone(GameContainer container) throws SlickException
-	{
-		for (int i = 0; i < houseDropZones.length; i++)
-			if (player.getHitbox().intersects(houseDropZones[i]) && container.getInput().isKeyPressed(Input.KEY_SPACE))
-			{
-				inHouseZone = true;
-				house[i].score();
-			}
-		return inHouseZone;
-	}
-	
-	
-	public boolean inStoreDropZone(GameContainer container) throws SlickException
-	{
-		for (int i = 0; i < storeDropZones.length; i++)
-			if (player.getHitbox().intersects(storeDropZones[i]) && container.getInput().isKeyPressed(Input.KEY_SPACE))
-				inStoreZone = true;
-		
-		return inStoreZone;
-	}
-	
-	
-	public boolean inAptDropZone(GameContainer container) throws SlickException
-	{
-		for (int i = 0; i < aptDropZones.length; i++)
-			if (player.getHitbox().intersects(aptDropZones[i]) && container.getInput().isKeyPressed(Input.KEY_SPACE))
-				inAptZone = true;
-		
-		return inAptZone;
-	}
-*/
 	@Override
 	public int getID()
 	{
 		return 1;
+	}
+	
+	private void dropPackage(GameContainer container) throws SlickException
+	{
+		for (int i = 0; i < buildings.length; i++)
+			if (player.getHitbox().intersects(buildings[i].getDropZone()) && container.getInput().isKeyPressed(Input.KEY_SPACE))
+			{
+				score += buildings[i].score();
+			}
 	}
 	
 	/**
@@ -378,6 +346,20 @@ public class Map extends BasicGameState
 			width += 96;
 			i++;
 		}
+		
+		buildings[i] = new Store("Sprites/buildings/shoppe.png", 64, 40);
+		i++;
+		
+		buildings[i] = new Store("Sprites/buildings/shoppe.png", 416, 408);
+		i++;
+		
+		buildings[i] = new Apartment("Sprites/buildings/apartment.png", 64, 208);
+		i++;
+		
+		buildings[i] = new House("Sprites/buildings/HOUSE.png", 752, 112);
+		i++;
+		
+		buildings[i] = new House("Sprites/buildings/HOUSE.png", 1008, 160);
 		
 		// TODO: Add floating buildings
 	}

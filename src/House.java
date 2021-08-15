@@ -39,9 +39,9 @@ public class House extends Building
 	}
 	
 	@Override
-	public void score() {
+	public int score() {
 		// TODO Auto-generated method stub
-		// Standard scoring
+		return 1;
 	}
 
 }

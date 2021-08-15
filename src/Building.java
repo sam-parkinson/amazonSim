@@ -140,6 +140,6 @@ public abstract class Building
 	 * building subclasses is the differences that occur when package delivery is completed.
 	 */
 	
-	public abstract void score();
+	public abstract int score();
 	
 }

@@ -35,9 +35,9 @@ public class Apartment extends Building
 	}
 
 	@Override
-	public void score() {
+	public int score() {
 		// TODO Auto-generated method stub
-		// 3x scoring
+		return 3;
 	}
 	
 }
