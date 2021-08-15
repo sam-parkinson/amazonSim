@@ -26,9 +26,9 @@ public class Map extends BasicGameState
 	 *	The buildings field contains an array consisting of all of the buildings to be
 	 *	placed on the map.
 	 *
-	 *	There are currently 22 buildings
+	 *	There are currently 34 buildings
 	 */
-	private Building[] buildings = new Building[3];
+	private Building[] buildings = new Building[27];
 	
 	/**
 	 * 	The roads field contains an array consisting of all of the edges of the roads on which
@@ -65,12 +65,13 @@ public class Map extends BasicGameState
 		map = new Image("Sprites/map.png");							// 1280 by 720
 		
 		// TODO: Put building generation in its own function called here
+		fillBuildings();
 		
-		// running total of buildings: 21
-		// hitboxes are 32 pixels away from border of buildings
+		/*
 		buildings[0] = new House("Sprites/buildings/HOUSE.png", 368, 272);
-		buildings[1] = new House("Sprites/buildings/HOUSE.png", 736, 128);
-		buildings[2] = new Store("Sprites/buildings/Shoppe.png", 128, 498);  // use this height for top of lowest horizontal road
+		buildings[1] = new Apartment("Sprites/buildings/apartment.png", 736, 128);
+		buildings[2] = new Store("Sprites/buildings/Shoppe.png", 128, 498); 
+		*/
 		
 		player = new Player(300, 450, 23, 25);
 		
@@ -96,7 +97,7 @@ public class Map extends BasicGameState
 				272, 208, 384, 46, 384, 46, 432, 208, 432, 208, 496, 32, 496, 32, 544, 208, 544, 208, 592});
 		
 		
-		/**houseDropZones[0] = new Rectangle(160, 96, 32, 8);
+		/*houseDropZones[0] = new Rectangle(160, 96, 32, 8);
 		houseDropZones[1] = new Rectangle(224, 96, 32, 8);
 		houseDropZones[2] = new Rectangle(288, 96, 32, 8);
 		houseDropZones[3] = new Rectangle(352, 96, 32, 8);
@@ -150,11 +151,12 @@ public class Map extends BasicGameState
 		for (int i = 0; i < buildings.length; i++)
 		{
 			g.draw(buildings[i].getHitbox());
+			g.draw(buildings[i].getDropZone());
 		}
 		
 		// Draw the player and map, and animate the player
 		g.draw(player.getHitbox());
-		// map.draw();
+		map.draw();
 		player.sprite(container).draw(player.getX(), player.getY());
 		
 		// Draw the images associated with the buildings
@@ -263,7 +265,7 @@ public class Map extends BasicGameState
 	}
 	
 	
-	/**public boolean inHouseDropZone(GameContainer container) throws SlickException
+	/*public boolean inHouseDropZone(GameContainer container) throws SlickException
 	{
 		for (int i = 0; i < houseDropZones.length; i++)
 			if (player.getHitbox().intersects(houseDropZones[i]) && container.getInput().isKeyPressed(Input.KEY_SPACE))
@@ -298,5 +300,63 @@ public class Map extends BasicGameState
 	public int getID()
 	{
 		return 1;
+	}
+	
+	/**
+	 * The fillBuildings method populates the buildings array.
+	 * @throws SlickException 
+	 */
+	
+	private void fillBuildings() throws SlickException 
+	{
+		int i = 0;
+		int width, height;
+		
+		width = 160;
+		height = 32;
+		for (int j = 0; j < 8; j++)
+		{
+			buildings[i] = new House("Sprites/buildings/HOUSE.png", width, height);
+			width += 64;
+			i++;
+		}
+		
+		width = 960;
+		for (int j = 0; j < 4; j++)
+		{
+			buildings[i] = new House("Sprites/buildings/HOUSE.png", width, height);
+			width += 64;
+			i++;
+		}
+		
+		width = 80;
+		height = 320;
+		for (int j = 0; j < 4; j++)
+		{
+			buildings[i] = new House("Sprites/buildings/HOUSE.png", width, height);			
+			width = (j) % 2 == 0 ? width + 64 : width - 64;
+			height = (j) % 2 != 0 ? height + 112 : height;
+			i++;
+		}
+		
+		width = 272;
+		height = 272;
+		for (int j = 0; j < 7; j++)
+		{
+			buildings[i] = new Apartment("Sprites/buildings/apartment.png", width, height);
+			width = j == 3 ? width + 112 : width + 64;
+			i++;
+		}
+		
+		width = 272;
+		height = 520;
+		for (int j = 0; j < 4; j++)
+		{
+			buildings[i] = new Store("Sprites/buildings/shoppe.png", width, height);
+			width += 96;
+			i++;
+		}
+		
+		// TODO: Add floating buildings
 	}
 }
