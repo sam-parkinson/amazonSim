@@ -9,7 +9,8 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.*;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  * The Map class defines the main game state
@@ -52,12 +53,23 @@ public class Map extends BasicGameState
 	private boolean inStoreZone;
 	private boolean inAptZone;
 
+	
+
+
+
+	
+
+	public Map(int map) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void init(GameContainer container, StateBasedGame arg1) throws SlickException
 	{
-		
+		// plays the map background music
 		GameMusic.mapMusic().setVolume(0.02f);
 		GameMusic.mapMusic().loop();
+
 		
 		coin = new SpriteSheet("Sprites/bezoBucks.png", 32, 32);
 		coinAni = new Animation(coin, 100);
@@ -173,8 +185,14 @@ public class Map extends BasicGameState
 
 	@Override
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException
-	{
-		
+	{  
+
+		if (container.getInput().isKeyPressed(Input.KEY_B)) {
+			sbg.enterState(1);
+		}
+		if(container.getInput().isKeyPressed(Input.KEY_ENTER)) 
+			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
+					
 		if(container.getInput().isKeyDown(Input.KEY_D))
 			movementX = 4f;
 
@@ -215,18 +233,22 @@ public class Map extends BasicGameState
 			apt.score();*/
 	}
 	
-	public int timer(GameContainer container, StateBasedGame sbg)
+	public int timer(GameContainer container, StateBasedGame sbg) throws SlickException
 	{
 		time1--;
 		if(time1 == 0)
 		{
 			time1 = 60;
 			time2--;
+	
+			
 		}
 		
-		if(time2 == 0)
+		else if(time2 == 0) {
 			sbg.enterState(2);
-		
+			
+		GameMusic.mapMusic().pause();}
+		       	
 		return time2;
 	}
 	

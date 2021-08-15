@@ -17,12 +17,9 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
  *
  */
 
-// TODO: Flesh out menu screen, make menu first thing that appears
-
 public class Menu extends BasicGameState
 {
-	//private Sound exitSound;
-
+	
 
 	public Menu(int menu) {
 		
@@ -36,10 +33,10 @@ public class Menu extends BasicGameState
 	@Override
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException
 	{
-		
+		// plays the menu background music
 		GameMusic.menuMusic().setVolume(0.1f);
 		GameMusic.menuMusic().loop();
-		//exitSound = new Sound("sounds/exit.wav");
+		
 		
 		start = new Polygon(new float[] {472, 273, 813, 273, 813, 350, 473, 350});
 		howToPlay = new Polygon(new float[] {473, 353, 813, 353, 813, 425, 472, 425});
@@ -48,7 +45,7 @@ public class Menu extends BasicGameState
 		
 		
 	}
-
+	
 	@Override
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException
 	{
@@ -57,9 +54,7 @@ public class Menu extends BasicGameState
         g.draw(exit);
         g.draw(mouse);
 		
-		
-		g.drawString("Press S for start\nPress Enter for exit", 50, 50);
-		
+						
 		Image map = new Image("Sprites/startMenu.png");
 		g.drawImage(map,10,10);
 		
@@ -91,10 +86,14 @@ public class Menu extends BasicGameState
 		else if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && howToPlay.contains(mouse)) {
 			sbg.enterState(3);
 		}
+		if(container.getInput().isKeyPressed(Input.KEY_L)) 
+			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
+					}
 			
-		
-	}
-
+	/**
+	 * The getID method represents the state ID.
+	 * @return returns state's ID
+	 */
 	@Override
 	public int getID()
 	{
