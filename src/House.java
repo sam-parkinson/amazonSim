@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 public class House extends Building
 {
 	private static final int DROP_HEIGHT = 8;
+	private static final int PARCEL_MOD = 1;
 	private Rectangle dropZone;
 	
 	/**
@@ -36,6 +37,11 @@ public class House extends Building
 	@Override
 	public Rectangle getDropZone() {
 		return this.dropZone;
+	}
+	
+	public int parcels()
+	{
+		return PARCEL_MOD;
 	}
 	
 	@Override

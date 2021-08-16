@@ -12,6 +12,7 @@ public class Store extends Building
 {
 	private static final int DROP_WIDTH = 8;
 	private static final int DROP_HEIGHT = 8;
+	private static final int PARCEL_MOD = 2;
 	private Rectangle dropZone;
 	
 	/**
@@ -33,6 +34,11 @@ public class Store extends Building
 	@Override
 	public Rectangle getDropZone() {
 		return this.dropZone;
+	}
+	
+	public int parcels()
+	{
+		return PARCEL_MOD;
 	}
 
 	@Override

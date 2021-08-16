@@ -13,6 +13,7 @@ public class Apartment extends Building
 
 	private static final int DROP_WIDTH = 8;
 	private static final int DROP_HEIGHT = 8;
+	private static final int PARCEL_MOD = 3;
 	private Rectangle dropZone;
 	/**
 	 * The Apartment constructor extends the superclass constructor
@@ -30,12 +31,20 @@ public class Apartment extends Building
 	}
 	
 	@Override
-	public Rectangle getDropZone() {
+	public Rectangle getDropZone() 
+	{
 		return this.dropZone;
 	}
 
 	@Override
-	public int score() {
+	public int parcels()
+	{
+		return PARCEL_MOD;
+	}
+	
+	@Override
+	public int score() 
+	{
 		// TODO Auto-generated method stub
 		return 3;
 	}

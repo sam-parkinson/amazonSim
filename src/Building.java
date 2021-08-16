@@ -136,8 +136,16 @@ public abstract class Building
 	public abstract Rectangle getDropZone();
 	
 	/**
+	 * The packages method returns the number of packages to be withdrawn
+	 * @return The package modifier
+	 */
+	
+	public abstract int parcels();
+	
+	/**
 	 * The score method must be implemented by any subclass of a building, part of what distinguishes 
 	 * building subclasses is the differences that occur when package delivery is completed.
+	 * @return The score modifier.
 	 */
 	
 	public abstract int score();

@@ -6,7 +6,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -42,7 +41,9 @@ public class Map extends BasicGameState
 	private int time1 = 60;
 	private int time2 = 25;
 	
-	private int score = 20;
+	private int score = 0;
+	private int parcelCapacity = 20;
+	private int parcels = parcelCapacity;
 
 	public Map(int map) {
 		// TODO Auto-generated constructor stub
@@ -154,6 +155,8 @@ public class Map extends BasicGameState
 		g.drawString(timer(container, arg1) + "", 600, 10);
 		coinAni.draw(650, 5);
 		g.drawString(": " + score, 685, 10);	
+		
+		g.drawString("Parcels: " + parcels, 600, 700);
 	}
 
 	@Override
@@ -262,8 +265,10 @@ public class Map extends BasicGameState
 	}
 	
 	/**
-	 * The dropPackage function checks to see if the player is in a drop zone and pressing space,
-	 * then delivers packages and scores them accordingly.
+	 * The dropPackage function checks to see if the player is in a drop zone, has packages able 
+	 * to be delivered, and pressing space, then delivers packages and scores them accordingly.
+	 * 
+	 * If the player is in the Warehouse drop zone, it refills packages instead
 	 * @param container The container in which the game is hosted.
 	 * @throws SlickException
 	 */
@@ -273,9 +278,12 @@ public class Map extends BasicGameState
 	private void dropPackage(GameContainer container) throws SlickException
 	{
 		for (int i = 0; i < buildings.length; i++)
-			if (player.getHitbox().intersects(buildings[i].getDropZone()) && container.getInput().isKeyPressed(Input.KEY_SPACE))
+			if (player.getHitbox().intersects(buildings[i].getDropZone()) 
+					&& container.getInput().isKeyPressed(Input.KEY_SPACE)
+					&& parcels >= buildings[i].parcels())
 			{
-				score += buildings[i].score();
+				score += buildings[i].score() * buildings[i].parcels();
+				parcels = buildings[i].parcels() == -1 ? parcelCapacity : parcels - buildings[i].parcels();
 			}
 	}
 	

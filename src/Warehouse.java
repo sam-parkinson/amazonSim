@@ -21,6 +21,17 @@ public class Warehouse extends Building
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/**
+	 * The Warehouse implementation of parcels returns -1 to trigger
+	 * the refilling of packages up to capacity.
+	 */
+	
+	@Override
+	public int parcels()
+	{
+		return -1;
+	}
 
 	@Override
 	public int score() {
