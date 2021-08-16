@@ -56,9 +56,6 @@ public class GameStateSelector extends StateBasedGame
 		this.addState(new GameOver(2));
 		this.addState(new HowToPlay(3)); 
 		
-		
-		// TODO: add update screen state
-		// TODO: make menu screen first thing that shows up
 	}
 
 }

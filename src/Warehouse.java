@@ -35,7 +35,6 @@ public class Warehouse extends Building
 
 	@Override
 	public int score() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	

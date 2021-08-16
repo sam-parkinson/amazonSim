@@ -213,8 +213,7 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(roads[i])) 
 			{
-				
-				GameSounds.collisionSound().play();		
+				playCollisionSound();
 				return true;
 			}
 		}
@@ -231,6 +230,23 @@ public class Map extends BasicGameState
 		
 		return false;	
 	}
+	
+	/**
+	 * The playCollisionSound method makes sure the player is moving,
+	 * then plays the collision sound.
+	 * @throws SlickException
+	 */
+	
+	private void playCollisionSound() throws SlickException
+	{
+		if (movementX != 0 || movementY != 0)
+			GameSounds.collisionSound().play();	
+	}
+	
+	/**
+	 * The askForDelivery method randomly switches buildings' statuses
+	 * from INACTIVE to NEEDED so that packages can be delivered to them.
+	 */
 	
 	private void askForDelivery()
 	{
@@ -257,8 +273,6 @@ public class Map extends BasicGameState
 	 * @throws SlickException
 	 */
 	
-	// TODO: Update this function to be more feature-rich
-	
 	private void dropPackage(GameContainer container) throws SlickException
 	{
 		for (int i = 0; i < buildings.length; i++)
@@ -269,6 +283,8 @@ public class Map extends BasicGameState
 			{
 				score += buildings[i].score() * buildings[i].parcels();
 				parcels = buildings[i].parcels() == -1 ? parcelCapacity : parcels - buildings[i].parcels();
+				buildings[i].setDeliveryStatus(3);
+				activeHouses--;
 			}
 	}
 	

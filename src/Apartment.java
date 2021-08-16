@@ -45,7 +45,6 @@ public class Apartment extends Building
 	@Override
 	public int score() 
 	{
-		// TODO Auto-generated method stub
 		return 3;
 	}
 	
