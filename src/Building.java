@@ -101,6 +101,41 @@ public abstract class Building
 		return this.hitbox;
 	}
 	
+	public boolean isInactive()
+	{
+		return status == Status.INACTIVE;
+	}
+	
+	public boolean awaitingDelivery()
+	{
+		return status == Status.NEEDED;
+	}
+	
+	/**
+	* The setDeliveryStatus method updates the delivery status of the building
+	* @param Status the incoming delivery status of the building
+	*/
+
+	public void setDeliveryStatus(int newStatus)
+	{
+		switch (newStatus)
+		{
+			case 0:
+				this.status = Status.INACTIVE;
+				break;
+			case 1:
+				this.status = Status.NEEDED;
+				break;
+			case 2:
+				this.status = Status.PROGRESS;
+				break;
+			case 3:
+				this.status = Status.COMPLETED;
+				break;
+		}
+		
+	}
+	
 	/**
 	 * The drawBuilding method calls the draw method of the Building's Image provided by the Slick
 	 * library using the x and y coordinates provided when the Building was defined. It also draws
@@ -112,19 +147,6 @@ public abstract class Building
 		image.draw(x, y);
 		// TODO: draw flag in proper location
 		status.flag.draw(x + (image.getWidth()/2), y - 32);
-	}
-	
-	/**
-		The UpdateDeliveryStatus method -- do I want one of these for all updates
-		or one for checking complete and one for randomly turning certain buildings
-		"on" -- making them eligible delivery targets?
-		// TODO: fix this documentation
-	 */
-	
-	public void updateDeliveryStatus(Status newStatus)
-	{
-		// TODO: write this function
-		this.status = newStatus;
 	}
 	
 	/**

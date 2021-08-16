@@ -44,6 +44,9 @@ public class Map extends BasicGameState
 	private int score = 0;
 	private int parcelCapacity = 20;
 	private int parcels = parcelCapacity;
+	
+	private int activeHouses = 0;
+	private final int MAX_ACTIVE_HOUSES = 12; 	// This can be set based on game balance
 
 	public Map(int map) {
 		// TODO Auto-generated constructor stub
@@ -198,6 +201,7 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setY(-movementY);
 		
+		askForDelivery();
 		dropPackage(container);	
 	}
 	
@@ -208,7 +212,7 @@ public class Map extends BasicGameState
 	}
 	
 	/**
-	 * 
+	 * The timer method tracks the amount of time remaining in the game.
 	 * @param container
 	 * @param sbg
 	 * @return The time remaining in the game
@@ -264,6 +268,22 @@ public class Map extends BasicGameState
 		return false;	
 	}
 	
+	private void askForDelivery()
+	{
+		for (int i = 0; i < buildings.length; i++)
+		{
+			int number = (int) Math.floor(Math.random() * 100);
+			
+			if (number < 30 
+					&& buildings[i].isInactive()
+					&& activeHouses <= MAX_ACTIVE_HOUSES)
+			{
+				buildings[i].setDeliveryStatus(1);
+				activeHouses++;
+			}
+		}
+	}
+	
 	/**
 	 * The dropPackage function checks to see if the player is in a drop zone, has packages able 
 	 * to be delivered, and pressing space, then delivers packages and scores them accordingly.
@@ -280,7 +300,8 @@ public class Map extends BasicGameState
 		for (int i = 0; i < buildings.length; i++)
 			if (player.getHitbox().intersects(buildings[i].getDropZone()) 
 					&& container.getInput().isKeyPressed(Input.KEY_SPACE)
-					&& parcels >= buildings[i].parcels())
+					&& parcels >= buildings[i].parcels()
+					&& buildings[i].awaitingDelivery())
 			{
 				score += buildings[i].score() * buildings[i].parcels();
 				parcels = buildings[i].parcels() == -1 ? parcelCapacity : parcels - buildings[i].parcels();
@@ -289,6 +310,7 @@ public class Map extends BasicGameState
 	
 	/**
 	 * The fillBuildings method populates the buildings array.
+	 * TODO: add Warehouse to this
 	 * @throws SlickException 
 	 */
 	
