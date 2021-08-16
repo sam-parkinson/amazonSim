@@ -42,7 +42,7 @@ public class Map extends BasicGameState
 	private int time2 = 25;
 	
 	private int score = 0;
-	private int parcelCapacity = 20;
+	private int parcelCapacity = 20;			// stretch goal to add upgrades means this might increase
 	private int parcels = parcelCapacity;
 	
 	private int activeHouses = 0;
@@ -89,42 +89,6 @@ public class Map extends BasicGameState
 				144, 144, 688, 144, 688, 128, 704, 128, 704, 112, 720, 112, 720, 96, 96, 96, 96, 272, 208, 
 				272, 208, 384, 46, 384, 46, 432, 208, 432, 208, 496, 32, 496, 32, 544, 208, 544, 208, 592});
 		
-		/*houseDropZones[0] = new Rectangle(160, 96, 32, 8);
-		houseDropZones[1] = new Rectangle(224, 96, 32, 8);
-		houseDropZones[2] = new Rectangle(288, 96, 32, 8);
-		houseDropZones[3] = new Rectangle(352, 96, 32, 8);
-		houseDropZones[4] = new Rectangle(416, 96, 32, 8);
-		houseDropZones[5] = new Rectangle(480, 96, 32, 8);
-		houseDropZones[6] = new Rectangle(544, 96, 32, 8);
-		houseDropZones[7] = new Rectangle(608, 96, 32, 8);
-		houseDropZones[8] = new Rectangle(992, 96, 32, 8);
-		houseDropZones[9] = new Rectangle(1152, 96, 32, 8);
-		houseDropZones[10] = new Rectangle(752, 176, 32, 8);
-		houseDropZones[11] = new Rectangle(1008, 224, 32, 8);
-		houseDropZones[12] = new Rectangle(672, 256, 32, 8);
-		houseDropZones[13] = new Rectangle(80, 384, 32, 8);
-		houseDropZones[14] = new Rectangle(160, 384, 32, 8);
-		houseDropZones[15] = new Rectangle(48, 384, 4, 48);
-		houseDropZones[16] = new Rectangle(80, 496, 32, 8);
-		houseDropZones[17] = new Rectangle(160, 496, 32, 8);
-		houseDropZones[18] = new Rectangle(48, 592, 32, 8);
-		houseDropZones[19] = new Rectangle(128, 592, 32, 8);
-			
-		storeDropZones[0] = new Rectangle(96, 96, 18, 8);
-		storeDropZones[1] = new Rectangle(416, 416, 64, 56);
-		storeDropZones[2] = new Rectangle(272, 512, 64, 64);
-		storeDropZones[3] = new Rectangle(368, 512, 64, 64);
-		storeDropZones[4] = new Rectangle(464, 512, 64, 64);
-		storeDropZones[5] = new Rectangle(560, 512, 64, 64);
-		
-		aptDropZones[0] = new Rectangle(96, 208, 8, 64);
-		aptDropZones[1] = new Rectangle(272, 336, 32, 8);
-		aptDropZones[2] = new Rectangle(336, 336, 32, 8);
-		aptDropZones[3] = new Rectangle(400, 336, 32, 8);
-		aptDropZones[4] = new Rectangle(464, 336, 32, 8);
-		aptDropZones[5] = new Rectangle(576, 384, 32, 8);
-		aptDropZones[6] = new Rectangle(640, 384, 32, 8);
-		aptDropZones[7] = new Rectangle(704, 384, 32, 8);*/
 	}
 
 	@Override
@@ -154,11 +118,11 @@ public class Map extends BasicGameState
 			buildings[i].drawBuilding();
 		}
 		
-		// Draw the timer and score
+		// TODO: update graphics
+		// Draw the timer, score, and parcel count
 		g.drawString(timer(container, arg1) + "", 600, 10);
 		coinAni.draw(650, 5);
 		g.drawString(": " + score, 685, 10);	
-		
 		g.drawString("Parcels: " + parcels, 600, 700);
 	}
 
@@ -272,9 +236,9 @@ public class Map extends BasicGameState
 	{
 		for (int i = 0; i < buildings.length; i++)
 		{
-			int number = (int) Math.floor(Math.random() * 100);
+			int number = (int) Math.floor(Math.random() * 1000);
 			
-			if (number < 30 
+			if (number < 20 
 					&& buildings[i].isInactive()
 					&& activeHouses <= MAX_ACTIVE_HOUSES)
 			{

@@ -101,10 +101,20 @@ public abstract class Building
 		return this.hitbox;
 	}
 	
+	/**
+	 * The isInactive function
+	 * @return True if a building is inactive, otherwise False
+	 */
+	
 	public boolean isInactive()
 	{
 		return status == Status.INACTIVE;
 	}
+	
+	/**
+	 * The awaitingDelivery function
+	 * @return True if a building needs a package, otherwise False
+	 */
 	
 	public boolean awaitingDelivery()
 	{
@@ -146,7 +156,7 @@ public abstract class Building
 	{
 		image.draw(x, y);
 		// TODO: draw flag in proper location
-		status.flag.draw(x + (image.getWidth()/2), y - 32);
+		status.flag.draw(x - 16 + (image.getWidth()/2), y - 32);
 	}
 	
 	/**
