@@ -128,7 +128,13 @@ public class Map extends BasicGameState
 		}
 		
 		// Draw the outlines of the non-player cars
-		
+		if(cars.size() > 0)
+		{
+			for(int i = 0; i < cars.size(); i++)
+			{
+				g.draw(cars.get(i).getHitbox());
+			}
+		}
 		
 		// Draw the outlines of the buildings
 		for (int i = 0; i < buildings.length; i++)
@@ -162,7 +168,6 @@ public class Map extends BasicGameState
 	
 	public void startRoute(GameContainer container, Graphics g)
 	{
-		g.draw(cars.get(0).getHitbox());
 		cars.get(0).sprite(container).draw(cars.get(0).getX(), cars.get(0).getY());
 		cars.get(0).movement();
 	}
@@ -331,6 +336,14 @@ public class Map extends BasicGameState
 		return false;	
 	}
 	
+	/**
+	 * The carAccident function checks to see if the player car has
+	 * crashed into another car, then plays the collision sound
+	 * and deducts score accordingly.
+	 * @return Whether or not the player is colliding with an NPC
+	 * @throws SlickException
+	 */
+	
 	private boolean carAccident() throws SlickException
 	{
 		for(int i = 0; i < cars.size(); i++)
@@ -389,7 +402,7 @@ public class Map extends BasicGameState
 			if (player.getHitbox().intersects(buildings[i].getDropZone()) 
 					&& container.getInput().isKeyPressed(Input.KEY_SPACE)
 					&& parcels >= buildings[i].parcels()
-					&& (buildings[i].awaitingDelivery() || i == 0))
+					&& (buildings[i].awaitingDelivery() || buildings[i].parcels() == -1))
 			{
 				GameSounds.packagedroppedSound().play();
 				score += buildings[i].score() * buildings[i].parcels();
