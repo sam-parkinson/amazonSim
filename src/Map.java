@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -38,10 +40,15 @@ public class Map extends BasicGameState
 	private Player player;
 	private float movementX, movementY;
 	
+	private ArrayList<NonPlayerCar> cars;
+	private NonPlayerCar npc1;
+	
+	private static boolean inAccident = false;
+	
 	private int time1 = 60;
 	private int time2 = 25;
 	
-	private int score = 0;
+	private int score = 10;
 	private int parcelCapacity = 20;			// stretch goal to add upgrades means this might increase
 	private int parcels = parcelCapacity;
 	
@@ -67,6 +74,10 @@ public class Map extends BasicGameState
 		fillBuildings();
 		
 		player = new Player(300, 450, 23, 25);
+		
+		npc1 = new NonPlayerCar(600, 600, 18, 18, new int[] {730, 600, 730, 340, 230, 340, 230, 600});
+		cars = new ArrayList<NonPlayerCar>();
+		cars.add(npc1);
 		
 		/*
 			TODO: Potentially put road generation in its own function
@@ -109,8 +120,19 @@ public class Map extends BasicGameState
 		
 		// Draw the player and map, and animate the player
 		g.draw(player.getHitbox());
-		map.draw();
+		//map.draw();
 		player.sprite(container).draw(player.getX(), player.getY());
+		
+		if(cars.size() > 0)
+		{
+			for(int i = 0; i < cars.size(); i++)
+			{
+				cars.get(i).sprite(container).draw(cars.get(i).getX(), cars.get(i).getY());
+				cars.get(i).movement();
+				g.draw(cars.get(i).getHitbox());
+			}
+		}
+		
 		
 		// Draw the images associated with the buildings
 		for (int i = 0; i < buildings.length; i++)
@@ -131,12 +153,12 @@ public class Map extends BasicGameState
 	{  
 
 		if (container.getInput().isKeyPressed(Input.KEY_B)) 
-		{
 			sbg.enterState(1);
-		}
 		if(container.getInput().isKeyPressed(Input.KEY_ENTER)) 
 			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
 					
+		
+		
 		if(container.getInput().isKeyDown(Input.KEY_D))
 			movementX = 4f;
 
@@ -149,6 +171,9 @@ public class Map extends BasicGameState
 		player.setX(movementX);
 		
 		if(collision())
+			player.setX(-movementX);
+		
+		if(carAccident())
 			player.setX(-movementX);
 			
 		if(container.getInput().isKeyDown(Input.KEY_W))
@@ -165,8 +190,16 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setY(-movementY);
 		
+		if(carAccident())
+			player.setY(-movementY);
+		
 		askForDelivery();
 		dropPackage(container);	
+
+		
+		if(npc1.routeFinished() && cars.size() > 0)
+			cars.remove(0);	
+		
 	}
 	
 	@Override
@@ -213,7 +246,8 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(roads[i])) 
 			{
-				playCollisionSound();
+				
+				GameSounds.collisionSound().play();		
 				return true;
 			}
 		}
@@ -231,22 +265,30 @@ public class Map extends BasicGameState
 		return false;	
 	}
 	
-	/**
-	 * The playCollisionSound method makes sure the player is moving,
-	 * then plays the collision sound.
-	 * @throws SlickException
-	 */
 	
-	private void playCollisionSound() throws SlickException
+	
+	private boolean carAccident() throws SlickException
 	{
-		if (movementX != 0 || movementY != 0)
-			GameSounds.collisionSound().play();	
+		for(int i = 0; i < cars.size(); i++)
+		{
+			if(player.getHitbox().intersects(cars.get(i).getHitbox()))
+			{
+				GameSounds.collisionSound().play();
+				if(time1 == 60)
+					score--;
+				inAccident = true;
+			}
+			else
+				inAccident = false;
+		}
+			
+		return inAccident;	
 	}
 	
-	/**
-	 * The askForDelivery method randomly switches buildings' statuses
-	 * from INACTIVE to NEEDED so that packages can be delivered to them.
-	 */
+	public static boolean getInAccident()
+	{
+		return inAccident;
+	}
 	
 	private void askForDelivery()
 	{
@@ -273,6 +315,8 @@ public class Map extends BasicGameState
 	 * @throws SlickException
 	 */
 	
+	// TODO: Update this function to be more feature-rich
+	
 	private void dropPackage(GameContainer container) throws SlickException
 	{
 		for (int i = 0; i < buildings.length; i++)
@@ -283,8 +327,6 @@ public class Map extends BasicGameState
 			{
 				score += buildings[i].score() * buildings[i].parcels();
 				parcels = buildings[i].parcels() == -1 ? parcelCapacity : parcels - buildings[i].parcels();
-				buildings[i].setDeliveryStatus(3);
-				activeHouses--;
 			}
 	}
 	
