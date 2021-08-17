@@ -25,9 +25,9 @@ public class Map extends BasicGameState
 	 *	The buildings field contains an array consisting of all of the buildings to be
 	 *	placed on the map.
 	 *
-	 *	There are currently 32 buildings
+	 *	There are currently 33 buildings
 	 */
-	private Building[] buildings = new Building[32];
+	private Building[] buildings = new Building[33];
 	
 	/**
 	 * 	The roads field contains an array consisting of all of the edges of the roads on which
@@ -118,12 +118,7 @@ public class Map extends BasicGameState
 			buildings[i].drawBuilding();
 		}
 		
-		// TODO: update graphics
-		// Draw the timer, score, and parcel count
-		g.drawString(timer(container, arg1) + "", 600, 10);
-		coinAni.draw(650, 5);
-		g.drawString(": " + score, 685, 10);	
-		g.drawString("Parcels: " + parcels, 600, 700);
+		displayUserInterface(container, arg1, g);
 	}
 
 	@Override
@@ -202,6 +197,22 @@ public class Map extends BasicGameState
 	}
 	
 	/**
+	 * The displayUserInterface method displays elements associated with the user interface.
+	 * @param container The container in which the game is hosted
+	 * @param arg1
+	 * @param g 
+	 * @throws SlickException
+	 */
+	
+	private void displayUserInterface(GameContainer container, StateBasedGame arg1, Graphics g) throws SlickException
+	{
+		g.drawString("Time: " + timer(container, arg1), 1120, 176);
+		coinAni.draw(1120, 362);
+		g.drawString(": " + score, 1145, 368);
+		g.drawString("Parcels: " + parcels, 40, 662);
+	}
+	
+	/**
 	 * The collision method checks each road and building to see if the player character
 	 * is contacting or overlapping with any of them.
 	 * @return Whether or not the player character is colliding with a road or building
@@ -223,7 +234,7 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(buildings[i].getHitbox()))
 			{
-				GameSounds.collisionSound().play();		
+				playCollisionSound();	
 				return true;
 			}
 		}
@@ -296,7 +307,8 @@ public class Map extends BasicGameState
 	
 	private void fillBuildings() throws SlickException 
 	{
-		int i = 0;
+		buildings[0] = new Warehouse("Sprites/buildings/warehouse.png", 768, 488);
+		int i = 1;
 		int width, height;
 		
 		width = 160;
