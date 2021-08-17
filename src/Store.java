@@ -32,7 +32,8 @@ public class Store extends Building
 	}
 	
 	@Override
-	public Rectangle getDropZone() {
+	public Rectangle getDropZone() 
+	{
 		return this.dropZone;
 	}
 	
@@ -42,7 +43,8 @@ public class Store extends Building
 	}
 
 	@Override
-	public int score() {
+	public int score() 
+	{
 		return 2;
 	}
 	

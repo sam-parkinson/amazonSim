@@ -92,6 +92,16 @@ public abstract class Building
 	}
 	
 	/**
+	 * The getImage method
+	 * @return The image used by the Building
+	 */
+	
+	public Image getImage()
+	{
+		return this.image;
+	}
+	
+	/**
 	 * The getHitbox method
 	 * @return The hitbox for the building, used to detect collisions
 	 */

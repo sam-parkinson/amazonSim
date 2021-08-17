@@ -11,15 +11,18 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Warehouse extends Building
 {
-
-	public Warehouse(String imageLocation, int x, int y) throws SlickException {
+	private Rectangle dropZone;
+	
+	public Warehouse(String imageLocation, int x, int y) throws SlickException 
+	{
 		super(imageLocation, x, y);
+		this.dropZone = new Rectangle(864, 464, 80, 24);
 	}
 	
 	@Override
-	public Rectangle getDropZone() {
-		// TODO Auto-generated method stub
-		return null;
+	public Rectangle getDropZone() 
+	{
+		return this.dropZone;
 	}
 	
 	/**
@@ -34,8 +37,15 @@ public class Warehouse extends Building
 	}
 
 	@Override
-	public int score() {
+	public int score() 
+	{
 		return 0;
+	}
+	
+	@Override
+	public void drawBuilding()
+	{
+		getImage().draw(x, y);
 	}
 	
 }

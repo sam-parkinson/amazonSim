@@ -20,6 +20,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class Map extends BasicGameState
 {
 	private Image map;
+	private Image parcel;
 	private SpriteSheet coin;
 	private Animation coinAni;
 	
@@ -70,6 +71,7 @@ public class Map extends BasicGameState
 		coinAni = new Animation(coin, 100);
 		
 		map = new Image("Sprites/map.png");							// 1280 by 720
+		parcel = new Image("Sprites/package.png");
 		
 		fillBuildings();
 		
@@ -111,6 +113,15 @@ public class Map extends BasicGameState
 			g.draw(roads[i]);
 		}
 		
+		// Draw the outlines of the non-player cars
+		if(cars.size() > 0)
+		{
+			for(int i = 0; i < cars.size(); i++)
+			{
+				g.draw(cars.get(i).getHitbox());
+			}
+		}
+		
 		// Draw the outlines of the buildings
 		for (int i = 0; i < buildings.length; i++)
 		{
@@ -120,19 +131,18 @@ public class Map extends BasicGameState
 		
 		// Draw the player and map, and animate the player
 		g.draw(player.getHitbox());
-		//map.draw();
+		map.draw();
 		player.sprite(container).draw(player.getX(), player.getY());
 		
+		// Draw the images associated with the non-player cars
 		if(cars.size() > 0)
 		{
 			for(int i = 0; i < cars.size(); i++)
 			{
 				cars.get(i).sprite(container).draw(cars.get(i).getX(), cars.get(i).getY());
 				cars.get(i).movement();
-				g.draw(cars.get(i).getHitbox());
 			}
 		}
-		
 		
 		// Draw the images associated with the buildings
 		for (int i = 0; i < buildings.length; i++)
@@ -141,6 +151,7 @@ public class Map extends BasicGameState
 		}
 		
 		displayUserInterface(container, arg1, g);
+		drawParcelMeter();
 	}
 
 	@Override
@@ -168,6 +179,7 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setX(-movementX);
 		
+		// TODO: Fix bug here
 		if(carAccident())
 			player.setX(-movementX);
 			
@@ -185,6 +197,7 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setY(-movementY);
 		
+		// TODO: Fix bug here
 		if(carAccident())
 			player.setY(-movementY);
 		
@@ -245,6 +258,16 @@ public class Map extends BasicGameState
 		g.drawString("Parcels: " + parcels, 40, 662);
 	}
 	
+	private void drawParcelMeter()
+	{
+		int width = 168, height = 656;
+		for (int i = 0; i < parcels; i++)
+		{
+			parcel.draw(width, height);
+			width += parcel.getWidth();
+		}
+	}
+	
 	/**
 	 * The collision method checks each road and building to see if the player character
 	 * is contacting or overlapping with any of them.
@@ -256,8 +279,7 @@ public class Map extends BasicGameState
 		for (int i = 0; i < roads.length; i++)
 		{
 			if (player.getHitbox().intersects(roads[i])) 
-			{
-				
+			{				
 				GameSounds.collisionSound().play();		
 				return true;
 			}
@@ -268,15 +290,13 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(buildings[i].getHitbox()))
 			{
-				playCollisionSound();	
+				GameSounds.collisionSound().play();
 				return true;
 			}
 		}
 		
 		return false;	
 	}
-	
-	
 	
 	private boolean carAccident() throws SlickException
 	{
@@ -300,6 +320,11 @@ public class Map extends BasicGameState
 	{
 		return inAccident;
 	}
+	
+	/**
+	 * The askForDelivery method randomly switches buildings' statuses
+	 * from INACTIVE to NEEDED so that packages can be delivered to them.
+	 */
 	
 	private void askForDelivery()
 	{
@@ -326,18 +351,18 @@ public class Map extends BasicGameState
 	 * @throws SlickException
 	 */
 	
-	// TODO: Update this function to be more feature-rich
-	
 	private void dropPackage(GameContainer container) throws SlickException
 	{
 		for (int i = 0; i < buildings.length; i++)
 			if (player.getHitbox().intersects(buildings[i].getDropZone()) 
 					&& container.getInput().isKeyPressed(Input.KEY_SPACE)
 					&& parcels >= buildings[i].parcels()
-					&& buildings[i].awaitingDelivery())
+					&& (buildings[i].awaitingDelivery() || i == 0))
 			{
 				score += buildings[i].score() * buildings[i].parcels();
 				parcels = buildings[i].parcels() == -1 ? parcelCapacity : parcels - buildings[i].parcels();
+				buildings[i].setDeliveryStatus(3);
+				activeHouses--;
 			}
 	}
 	
