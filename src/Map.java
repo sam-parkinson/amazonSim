@@ -75,17 +75,17 @@ public class Map extends BasicGameState
 		
 		fillBuildings();
 		
-		player = new Player(300, 450, 23, 25);
+		// Player character starts in front of Amazon warehouse
+		player = new Player(876, 434, 23, 25);
 		
 		npc1 = new NonPlayerCar(600, 600, 18, 18, new int[] {730, 600, 730, 340, 230, 340, 230, 600});
 		cars = new ArrayList<NonPlayerCar>();
 		cars.add(npc1);
 		
 		/*
-			TODO: Potentially put road generation in its own function
 		 	Below are the polygons defining the wall edges, which are used to bound the car's movement
 		*/
-		roads[0] = new Polygon(new float[] {0, 0, 1280, 0, 1280, 720, 0, 720});		// This is the map edge
+		roads[0] = new Polygon(new float[] {0, 0, 1280, 0, 1280, 720, 0, 720});				// This is the map edge
 		roads[1] = new Polygon(new float[] {1200, 640, 1280, 640, 1280, 720, 1200, 720});
 		roads[2] = new Polygon(new float[] {0, 640, 1152, 640, 1152, 720, 0, 720});
 		roads[3] = new Polygon(new float[] {256, 384, 256, 432, 272, 432, 272, 384});
@@ -179,9 +179,8 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setX(-movementX);
 		
-		// TODO: Fix bug here
 		if(carAccident())
-			player.setX(-movementX);
+			player.setX(876 - player.getX());
 			
 		if(container.getInput().isKeyDown(Input.KEY_W))
 			movementY = -4f;
@@ -197,9 +196,8 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setY(-movementY);
 		
-		// TODO: Fix bug here
 		if(carAccident())
-			player.setY(-movementY);
+			player.setY(434 - player.getY());
 		
 		askForDelivery();
 		dropPackage(container);	
@@ -298,6 +296,14 @@ public class Map extends BasicGameState
 		return false;	
 	}
 	
+	/**
+	 * The carAccident function checks to see if the player car has
+	 * crashed into another car, then plays the collision sound
+	 * and deducts score accordingly.
+	 * @return Whether or not the player is colliding with an NPC
+	 * @throws SlickException
+	 */
+	
 	private boolean carAccident() throws SlickException
 	{
 		for(int i = 0; i < cars.size(); i++)
@@ -305,8 +311,7 @@ public class Map extends BasicGameState
 			if(player.getHitbox().intersects(cars.get(i).getHitbox()))
 			{
 				GameSounds.collisionSound().play();
-				if(time1 == 60)
-					score--;
+				score = score < 10 ? 0 : score - 10;
 				inAccident = true;
 			}
 			else
@@ -369,7 +374,6 @@ public class Map extends BasicGameState
 	
 	/**
 	 * The fillBuildings method populates the buildings array.
-	 * TODO: add Warehouse to this
 	 * @throws SlickException 
 	 */
 	

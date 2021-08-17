@@ -43,14 +43,6 @@ public abstract class Building
 	private Image image;			// all buildings must have a picture indicating which building they are
 	private Status status;			// whether or not the building wants a package
 	
-	/*
-	 * Do the below characteristics need to be added? If so, how? Static variables in subclasses?
-	 */
-	
-	private int deliveryTime;		// how long it takes for a package to be delivered (what unit?)
-	private int multiplier;			// used in score function, how much score is multiplied
-	private int packagesDelivered;	// how many packages are dropped off at once
-	
 	/**
 	 * The Building constructor takes the location of the image depicting the building and the 
 	 * coordinates of the top left corner of the object, and creates a new Building as well
@@ -165,7 +157,6 @@ public abstract class Building
 	public void drawBuilding()
 	{
 		image.draw(x, y);
-		// TODO: draw flag in proper location
 		status.flag.draw(x - 16 + (image.getWidth()/2), y - 32);
 	}
 	
