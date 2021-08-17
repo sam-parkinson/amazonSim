@@ -42,14 +42,16 @@ public class Map extends BasicGameState
 	private float movementX, movementY;
 	
 	private ArrayList<NonPlayerCar> cars;
-	private NonPlayerCar npc1;
+	private NonPlayerCar npc1, npc2, npc3, npc4, npc5, npc6, npc7;
 	
 	private static boolean inAccident = false;
 	
-	private int time1 = 60;
-	private int time2 = 25;
+	private boolean startRouteBoolean;
 	
-	private int score = 10;
+	private int time1 = 60;
+	private int time2 = 72;
+	
+	private static int score = 10;
 	private int parcelCapacity = 20;			// stretch goal to add upgrades means this might increase
 	private int parcels = parcelCapacity;
 	
@@ -75,17 +77,29 @@ public class Map extends BasicGameState
 		
 		fillBuildings();
 		
-		// Player character starts in front of Amazon warehouse
 		player = new Player(876, 434, 23, 25);
 		
-		npc1 = new NonPlayerCar(600, 600, 18, 18, new int[] {730, 600, 730, 340, 230, 340, 230, 600});
+		npc1 = new NonPlayerCar(91, 384, 18, 18, new int[] {91, 412, 208, 412, 208, 496, 154, 496});
+		npc2 = new NonPlayerCar(705, 339, 18, 18, new int[] {705, 594, 667, 594, 667, 465, 442, 465});
+		npc3 = new NonPlayerCar(650, 339, 18, 18, new int[] {280, 339});
+		npc4 = new NonPlayerCar(91, 498, 18, 18, new int[] {91, 525, 237, 525, 237, 456, 280, 456, 280, 502});
+		npc5 = new NonPlayerCar(100, 249, 18, 18, new int[] {125, 249, 125, 126, 424, 126, 424, 96});
+		npc6 = new NonPlayerCar(100, 96, 18, 18, new int[] {362, 96});
+		npc7 = new NonPlayerCar(1162, 96, 18, 18, new int[] {928, 96, 928, 254, 1041, 254, 1041, 592, 1280, 592});
 		cars = new ArrayList<NonPlayerCar>();
 		cars.add(npc1);
+		cars.add(npc2);
+		cars.add(npc3);
+		cars.add(npc4);
+		cars.add(npc5);
+		cars.add(npc6);
+		cars.add(npc7);
 		
 		/*
+			TODO: Potentially put road generation in its own function
 		 	Below are the polygons defining the wall edges, which are used to bound the car's movement
 		*/
-		roads[0] = new Polygon(new float[] {0, 0, 1280, 0, 1280, 720, 0, 720});				// This is the map edge
+		roads[0] = new Polygon(new float[] {0, 0, 1280, 0, 1280, 720, 0, 720});		// This is the map edge
 		roads[1] = new Polygon(new float[] {1200, 640, 1280, 640, 1280, 720, 1200, 720});
 		roads[2] = new Polygon(new float[] {0, 640, 1152, 640, 1152, 720, 0, 720});
 		roads[3] = new Polygon(new float[] {256, 384, 256, 432, 272, 432, 272, 384});
@@ -114,13 +128,7 @@ public class Map extends BasicGameState
 		}
 		
 		// Draw the outlines of the non-player cars
-		if(cars.size() > 0)
-		{
-			for(int i = 0; i < cars.size(); i++)
-			{
-				g.draw(cars.get(i).getHitbox());
-			}
-		}
+		
 		
 		// Draw the outlines of the buildings
 		for (int i = 0; i < buildings.length; i++)
@@ -135,15 +143,13 @@ public class Map extends BasicGameState
 		player.sprite(container).draw(player.getX(), player.getY());
 		
 		// Draw the images associated with the non-player cars
-		if(cars.size() > 0)
-		{
-			for(int i = 0; i < cars.size(); i++)
-			{
-				cars.get(i).sprite(container).draw(cars.get(i).getX(), cars.get(i).getY());
-				cars.get(i).movement();
-			}
-		}
 		
+		if(time2 % 10 == 0 && time1 == 60)
+			startRouteBoolean = true;
+		
+		if(startRouteBoolean == true)
+			startRoute(container, g);
+			
 		// Draw the images associated with the buildings
 		for (int i = 0; i < buildings.length; i++)
 		{
@@ -152,6 +158,13 @@ public class Map extends BasicGameState
 		
 		displayUserInterface(container, arg1, g);
 		drawParcelMeter();
+	}
+	
+	public void startRoute(GameContainer container, Graphics g)
+	{
+		g.draw(cars.get(0).getHitbox());
+		cars.get(0).sprite(container).draw(cars.get(0).getX(), cars.get(0).getY());
+		cars.get(0).movement();
 	}
 
 	@Override
@@ -179,6 +192,7 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setX(-movementX);
 		
+		// TODO: Fix bug here
 		if(carAccident())
 			player.setX(876 - player.getX());
 			
@@ -196,17 +210,26 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setY(-movementY);
 		
+		// TODO: Fix bug here
 		if(carAccident())
 			player.setY(434 - player.getY());
 		
 		askForDelivery();
 		dropPackage(container);	
-
+		
 		if (time2 % 5 == 0)
 			resetHouses();
+
+		for(int i = 0; i < cars.size(); i++)
+		{
+			if(cars.get(i).routeFinished() && cars.size() > 0)
+			{
+				startRouteBoolean = false;
+				cars.remove(i);			
+			}
+
+		}
 		
-		if(npc1.routeFinished() && cars.size() > 0)
-			cars.remove(0);	
 		
 	}
 	
@@ -214,6 +237,11 @@ public class Map extends BasicGameState
 	public int getID()
 	{
 		return 1;
+	}
+	
+	public static int getScore()
+	{
+		return score;
 	}
 	
 	/**
@@ -237,7 +265,7 @@ public class Map extends BasicGameState
 		{
 			sbg.enterState(2);		
 			GameMusic.mapMusic().pause();
-					}
+		}
 		       	
 		return time2;
 	}
@@ -275,13 +303,16 @@ public class Map extends BasicGameState
 	 */
 	private boolean collision() throws SlickException
 	{	
+		
 		// Check to see if car colliding with edge of road
 		for (int i = 0; i < roads.length; i++)
 		{
 			if (player.getHitbox().intersects(roads[i])) 
-			{				
-				GameSounds.collisionSound().play();		
-				return true;
+			{		
+				if(time1 % 30 == 0)
+					GameSounds.collisionSound().play();
+				
+				return true;					
 			}
 		}
 		
@@ -290,21 +321,15 @@ public class Map extends BasicGameState
 		{
 			if (player.getHitbox().intersects(buildings[i].getHitbox()))
 			{
-				GameSounds.collisionSound().play();
+				if(time1 % 30 == 0)
+					GameSounds.collisionSound().play();
+				
 				return true;
 			}
 		}
 		
 		return false;	
 	}
-	
-	/**
-	 * The carAccident function checks to see if the player car has
-	 * crashed into another car, then plays the collision sound
-	 * and deducts score accordingly.
-	 * @return Whether or not the player is colliding with an NPC
-	 * @throws SlickException
-	 */
 	
 	private boolean carAccident() throws SlickException
 	{
@@ -361,11 +386,10 @@ public class Map extends BasicGameState
 	private void dropPackage(GameContainer container) throws SlickException
 	{
 		for (int i = 0; i < buildings.length; i++)
-		{
 			if (player.getHitbox().intersects(buildings[i].getDropZone()) 
 					&& container.getInput().isKeyPressed(Input.KEY_SPACE)
 					&& parcels >= buildings[i].parcels()
-					&& (buildings[i].awaitingDelivery() || buildings[i].parcels() == -1))
+					&& (buildings[i].awaitingDelivery() || i == 0))
 			{
 				GameSounds.packagedroppedSound().play();
 				score += buildings[i].score() * buildings[i].parcels();
@@ -373,7 +397,6 @@ public class Map extends BasicGameState
 				buildings[i].setDeliveryStatus(3);
 				activeHouses--;
 			}
-		}
 	}
 	
 	private void resetHouses()
@@ -387,8 +410,10 @@ public class Map extends BasicGameState
 		}
 	}
 	
+	
 	/**
 	 * The fillBuildings method populates the buildings array.
+	 * TODO: add Warehouse to this
 	 * @throws SlickException 
 	 */
 	
