@@ -123,6 +123,11 @@ public abstract class Building
 		return status == Status.NEEDED;
 	}
 	
+	/**
+	 * The delivered function
+	 * @return True if a building recently received a package, else False
+	 */
+	
 	public boolean delivered()
 	{
 		return status == Status.COMPLETED;
@@ -130,7 +135,7 @@ public abstract class Building
 	
 	/**
 	* The setDeliveryStatus method updates the delivery status of the building
-	* @param Status the incoming delivery status of the building
+	* @param int The incoming delivery status of the building
 	*/
 
 	public void setDeliveryStatus(int newStatus)
@@ -149,8 +154,7 @@ public abstract class Building
 			case 3:
 				this.status = Status.COMPLETED;
 				break;
-		}
-		
+		}	
 	}
 	
 	/**
@@ -168,7 +172,7 @@ public abstract class Building
 	/**
 	 * The getDropZone method must be implemented by any subclass of a building, and returns
 	 * a rectangle defining the area in which packages can be delivered.
-	 * @return
+	 * @return The building's drop zone
 	 */
 	
 	public abstract Rectangle getDropZone();

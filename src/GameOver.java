@@ -17,7 +17,10 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class GameOver extends BasicGameState
 {
 
-	
+	/**
+	 * The one-arg constructor
+	 * @param menu
+	 */
 
 	public GameOver(int menu) {
 		
@@ -27,7 +30,7 @@ public class GameOver extends BasicGameState
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
 		
-		       }
+	}
 
 	/**
 	 * The render method draw text and image on the screen
@@ -39,10 +42,8 @@ public class GameOver extends BasicGameState
 	  Image gameOver = new Image("sprites/gameOver.png");
 	  g.drawImage(gameOver,10,10);
       g.drawString("Game Over!", 600, 75);
-      g.setColor(Color.red);
-         
-           
-			}
+      g.setColor(Color.red);         
+	}
 		
 
 	@Override
@@ -51,8 +52,7 @@ public class GameOver extends BasicGameState
 		
 		GameSounds.gameOverSound().play();	
 		if(container.getInput().isKeyPressed(Input.KEY_E)) 
-			sbg.enterState(4, new FadeOutTransition(), new FadeInTransition());
-		   
+			sbg.enterState(4, new FadeOutTransition(), new FadeInTransition());	   
 	}
 
 	/**

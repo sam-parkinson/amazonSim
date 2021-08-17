@@ -30,11 +30,21 @@ public class Apartment extends Building
 				(getHitbox().getWidth() + (DROP_WIDTH * 2)), (getHitbox().getHeight() + (DROP_HEIGHT * 2)));
 	}
 	
+	/**
+	 * The getDropZone function
+	 * @return The delivery zone for the Apartment
+	 */
+	
 	@Override
 	public Rectangle getDropZone() 
 	{
 		return this.dropZone;
 	}
+	
+	/**
+	 * The parcels method
+	 * @return The number of parcels the building type deducts
+	 */
 
 	@Override
 	public int parcels()

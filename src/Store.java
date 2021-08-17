@@ -31,21 +31,36 @@ public class Store extends Building
 				(getHitbox().getWidth() + (DROP_WIDTH * 2)), (getHitbox().getHeight() + (DROP_HEIGHT * 2)));
 	}
 	
+	/**
+	 * The getDropZone function
+	 * @return The delivery zone for the Store
+	 */
+	
 	@Override
 	public Rectangle getDropZone() 
 	{
 		return this.dropZone;
 	}
 	
+	/**
+	 * The parcels method
+	 * @return The number of parcels the building type deducts
+	 */
+	
 	public int parcels()
 	{
 		return PARCEL_MOD;
 	}
+	
+	/**
+	 * The score function
+	 * @return The score modifier for the building type
+	 */
 
 	@Override
 	public int score() 
 	{
-		return 2;
+		return 4;
 	}
 	
 }

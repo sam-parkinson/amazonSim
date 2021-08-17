@@ -1,6 +1,12 @@
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+/**
+ * 
+ * The GameSounds class keeps track of sound effects that the game will play
+ *
+ */
+
 public class GameSounds {
 
 	/**
@@ -22,8 +28,8 @@ public class GameSounds {
 	}
 	
 	/**
-	 * The pointRewardSound method plays a specific sound when a point earned.
-	 * @return returns sound when a point earned.
+	 * The pointRewardSound method plays a specific sound when points are earned.
+	 * @return returns sound when points are earned.
 	 */
 	public static  Sound pointRewardSound() throws SlickException {
 		

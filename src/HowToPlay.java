@@ -14,25 +14,26 @@ public class HowToPlay extends BasicGameState
 {
 	
 	
-/**
- * Constructor
- * */
+	/**
+	 * Constructor
+	 * @param menu
+	 */
 	public HowToPlay(int menu) {
 		
 	}
 	
 	/**
 	 * The init method initialize all staff that it needs.
-	 * */
+	 */
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException
 	{
 		
 	    
-		       }
+	}
 	/**
 	 * The render method draw how to play text on the HowToPlay game state.
-	 **/
+	 */
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException
 	{
@@ -48,14 +49,11 @@ public class HowToPlay extends BasicGameState
         g.drawString("Instruction: \n\r\n"
         		+ "Use W, A, S, D for movement \n\r\nUse Space for package dropping \n\r\nPress B to return", 100, 250);
         
-      
-      
-     
 	}
 		
 	/**
 	 * The update method updating states.
-	 **/
+	 */
 	@Override
 	public void update(GameContainer container, StateBasedGame sbg, int arg2) throws SlickException
 	{     // pressing B will return you to the game

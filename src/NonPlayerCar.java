@@ -12,8 +12,6 @@ import org.newdawn.slick.SpriteSheet;
 
 public class NonPlayerCar extends Vehicle
 {
-	// however track gets represented
-	
 	private int[] coords;
 	private int i = 0;
 	private float movementX, movementY;
@@ -24,14 +22,23 @@ public class NonPlayerCar extends Vehicle
 	private SpriteSheet carUp, carDown, carRight, carLeft;
 	private Animation carUpAni, carDownAni, carRightAni, carLeftAni, correctAni;
 	
+	/**
+	 * The NonPlayerCar constructor calls the superclass constructor for the first
+	 * four parameters, then builds the animation and sets the path on which
+	 * the car will travel
+	 * @param x The top left corner of the NPC starting point 
+	 * @param y The top right corner of the NPC starting point
+	 * @param width The sprite and hitbox width
+	 * @param height The sprite and hitbox height
+	 * @param coords The track on which the car will travel
+	 * @throws SlickException
+	 */
 	
-	
-	public NonPlayerCar(int x, int y, int height, int width, int[] coords) throws SlickException {
-		super(x, y, height, width);
+	public NonPlayerCar(int x, int y, int width, int height, int[] coords) throws SlickException {
+		super(x, y, width, height);
 
 		this.coords = coords;
-
-				
+			
 		carUp = new SpriteSheet("Sprites/vehicles/carUp.png", 18, 18);
 		carDown = new SpriteSheet("Sprites/vehicles/carDown.png", 18, 18);
 		carLeft = new SpriteSheet("Sprites/vehicles/carLeft.png", 18, 18);
@@ -43,17 +50,27 @@ public class NonPlayerCar extends Vehicle
 		carRightAni = new Animation(carRight, 150);
 		
 	}
+	
+	/**
+	 * The updateAnimation method updates each of the vehicle animations to
+	 * display the correct frame.
+	 * @param delta The amount of time passed since the last update
+	 */
 
 	@Override
-	public void updateAnimation(long delta) {
+	public void updateAnimation(long delta) 
+	{
 		carUpAni.update(delta);
 		carDownAni.update(delta);
 		carLeftAni.update(delta);
-		carRightAni.update(delta);
-		
+		carRightAni.update(delta);	
 	}
 	
-
+	/**
+	 * The movement function checks the next coordinate to which the NPC will be moving,
+	 * then moves in that direction, stopping briefly should the NPC collide with the player.
+	 */
+	
 	public void movement()
 	{	
 		if(coords.length > 0)
@@ -97,12 +114,21 @@ public class NonPlayerCar extends Vehicle
 			}
 		}
 	}
-	// contains own function to move self around?
+	
+	/**
+	 * The routeFinished function
+	 * @return True if the car has reached the end of its journey
+	 */
 	
 	public boolean routeFinished()
 	{
 		return routeFinished;
 	}
+	
+	/**
+	 * The sprite function displays the correct sprite based on the direction in which
+	 * the car is traveling.
+	 */
 
 	@Override
 	public Animation sprite(GameContainer container)
@@ -120,12 +146,5 @@ public class NonPlayerCar extends Vehicle
 			correctAni = carUpAni;
 		return correctAni;
 	}
-	
-	/*
-	 * This function knows what the track is and whether or not the NPC is colliding
-	 * with the player car, if it's not colliding it moves the car along the track
-	 * 
-	 * Handful of if/else statements about where it should turn
-	 */
 	
 }

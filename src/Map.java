@@ -365,7 +365,7 @@ public class Map extends BasicGameState
 			if (player.getHitbox().intersects(buildings[i].getDropZone()) 
 					&& container.getInput().isKeyPressed(Input.KEY_SPACE)
 					&& parcels >= buildings[i].parcels()
-					&& (buildings[i].awaitingDelivery() || i == 0))
+					&& (buildings[i].awaitingDelivery() || buildings[i].parcels() == -1))
 			{
 				GameSounds.packagedroppedSound().play();
 				score += buildings[i].score() * buildings[i].parcels();
