@@ -185,8 +185,6 @@ public class Map extends BasicGameState
 		if(container.getInput().isKeyPressed(Input.KEY_ENTER)) 
 			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
 					
-		
-		
 		if(container.getInput().isKeyDown(Input.KEY_D))
 			movementX = 4f;
 
@@ -230,6 +228,9 @@ public class Map extends BasicGameState
 				cars.remove(i);			
 			}
 		}
+		
+		if (cars.size() == 0)
+			refillCars();
 	}
 	
 	@Override
@@ -251,15 +252,10 @@ public class Map extends BasicGameState
 		
 		parcels = parcelCapacity;
 		
+		refillCars();
+		
 		player.resetVehicle(876, 434);
 		
-		cars.add(npc1);
-		cars.add(npc2);
-		cars.add(npc3);
-		cars.add(npc4);
-		cars.add(npc5);
-		cars.add(npc6);
-		cars.add(npc7);
 		GameMusic.mapMusic().loop();
 	}
 	
@@ -382,7 +378,7 @@ public class Map extends BasicGameState
 	
 	private boolean carAccident() throws SlickException
 	{
-		if(player.getHitbox().intersects(cars.get(0).getHitbox()))
+		if(cars.size() > 0 && player.getHitbox().intersects(cars.get(0).getHitbox()))
 		{
 			GameSounds.collisionSound().play();
 			score = score < 10 ? 0 : score - 10;
@@ -424,6 +420,26 @@ public class Map extends BasicGameState
 				activeHouses++;
 			}
 		}
+	}
+	
+	private static void refillCars() throws SlickException
+	{
+		cars.clear();
+		npc1 = new NonPlayerCar(91, 384, 18, 18, new int[] {91, 412, 208, 412, 208, 496, 154, 496});
+		npc2 = new NonPlayerCar(705, 339, 18, 18, new int[] {705, 594, 667, 594, 667, 465, 442, 465});
+		npc3 = new NonPlayerCar(650, 339, 18, 18, new int[] {280, 339});
+		npc4 = new NonPlayerCar(91, 498, 18, 18, new int[] {91, 525, 237, 525, 237, 456, 280, 456, 280, 502});
+		npc5 = new NonPlayerCar(100, 249, 18, 18, new int[] {125, 249, 125, 126, 424, 126, 424, 96});
+		npc6 = new NonPlayerCar(100, 96, 18, 18, new int[] {362, 96});
+		npc7 = new NonPlayerCar(1162, 96, 18, 18, new int[] {928, 96, 928, 254, 1041, 254, 1041, 592, 1280, 592});
+
+		cars.add(npc1);
+		cars.add(npc2);
+		cars.add(npc3);
+		cars.add(npc4);
+		cars.add(npc5);
+		cars.add(npc6);
+		cars.add(npc7);
 	}
 	
 	/**
