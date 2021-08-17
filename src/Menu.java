@@ -40,7 +40,7 @@ public class Menu extends BasicGameState
 		
 		
 		start = new Polygon(new float[] {472, 273, 813, 273, 813, 350, 473, 350});
-		howToPlay = new Polygon(new float[] {473, 353, 813, 353, 813, 425, 472, 425});
+		howToPlay = new Polygon(new float[] {472, 353, 813, 353, 813, 425, 472, 425});
 		exit = new Polygon(new float[] {472, 429, 813, 429, 813, 513, 472, 513});
 		mouse = new Circle(0, 0, 1);		
 		
@@ -58,9 +58,7 @@ public class Menu extends BasicGameState
 						
 		Image map = new Image("Sprites/startMenu.png");
 		g.drawImage(map,10,10);
-		
-
-		
+			
 	}
 
 
@@ -80,16 +78,17 @@ public class Menu extends BasicGameState
 		}
 		
 		
-		else if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && exit.contains(mouse)) {
+		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && exit.contains(mouse)) {
 			sbg.enterState(4);
 		}
 		
-		else if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && howToPlay.contains(mouse)) {
-			sbg.enterState(3);
+		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && howToPlay.contains(mouse)) {
+			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
 		}
+		
 		if(container.getInput().isKeyPressed(Input.KEY_L)) 
 			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
-					}
+	}
 			
 	/**
 	 * The getID method represents the state ID.

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -38,22 +39,28 @@ public class Map extends BasicGameState
 	 */
 	private Polygon[] roads = new Polygon[11];
 	
-	private Player player;
+	private static Player player;
 	private float movementX, movementY;
 	
-	private ArrayList<NonPlayerCar> cars;
-	private NonPlayerCar npc1, npc2, npc3, npc4, npc5, npc6, npc7;
+	private static ArrayList<NonPlayerCar> cars;
+	private static NonPlayerCar npc1;
+	private static NonPlayerCar npc2;
+	private static NonPlayerCar npc3;
+	private static NonPlayerCar npc4;
+	private static NonPlayerCar npc5;
+	private static NonPlayerCar npc6;
+	private static NonPlayerCar npc7;
 	
 	private static boolean inAccident = false;
 	
 	private boolean startRouteBoolean;
 	
-	private int time1 = 60;
-	private int time2 = 72;
+	private static int time1 = 60;
+	private static int time2 = 72;
 	
-	private static int score = 10;
-	private int parcelCapacity = 20;			// stretch goal to add upgrades means this might increase
-	private int parcels = parcelCapacity;
+	private static int score = 0;
+	private static int parcelCapacity = 20;			// stretch goal to add upgrades means this might increase
+	private static int parcels = parcelCapacity;
 	
 	private int activeHouses = 0;
 	private final int MAX_ACTIVE_HOUSES = 12; 	// This can be set based on game balance
@@ -121,6 +128,7 @@ public class Map extends BasicGameState
 	@Override
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g) throws SlickException
 	{
+		g.setColor(Color.black);
 		// Draw the roads
 		for (int i = 0; i < roads.length; i++)
 		{
@@ -231,6 +239,30 @@ public class Map extends BasicGameState
 	public int getID()
 	{
 		return 1;
+	}
+	/**
+	 * The reset method returns game information to its starting values
+	 * @throws SlickException 
+	 */
+	
+	public static void reset() throws SlickException
+	{
+		score = 0;
+		time1 = 60;
+		time2 = 72;
+		
+		parcels = parcelCapacity;
+		
+		player.resetVehicle(876, 434);
+		
+		cars.add(npc1);
+		cars.add(npc2);
+		cars.add(npc3);
+		cars.add(npc4);
+		cars.add(npc5);
+		cars.add(npc6);
+		cars.add(npc7);
+		GameMusic.mapMusic().loop();
 	}
 	
 	public static int getScore()

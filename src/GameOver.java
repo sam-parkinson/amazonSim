@@ -41,8 +41,9 @@ public class GameOver extends BasicGameState
 	{
 	  Image gameOver = new Image("sprites/gameOver.png");
 	  g.drawImage(gameOver,10,10);
-      g.drawString("Game Over!", 600, 75);
-      g.setColor(Color.red);         
+	  g.setColor(Color.red);
+      g.drawString("\tGame Over!\nYou made " + Map.getScore() + " BezosBucks", 540, 75);
+               
 	}
 		
 
@@ -51,6 +52,11 @@ public class GameOver extends BasicGameState
 	{
 		
 		GameSounds.gameOverSound().play();	
+		if(container.getInput().isKeyPressed(Input.KEY_T))
+		{
+			Map.reset();
+			sbg.enterState(1, new FadeOutTransition(), new FadeInTransition());
+		}
 		if(container.getInput().isKeyPressed(Input.KEY_E)) 
 			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());	   
 	}
