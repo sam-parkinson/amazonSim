@@ -70,6 +70,18 @@ public abstract class Vehicle
 	}
 	
 	/**
+	 * The resetVehicle method moves the vehicle to the specified location
+	 * @param x
+	 * @param y
+	 */
+	
+	public void resetVehicle(int x, int y)
+	{
+		hitbox.setX(x);
+		hitbox.setY(y);
+	}
+	
+	/**
 	 * The getHitbox method
 	 * @return The Vehicle's hitbox
 	 */

@@ -128,13 +128,9 @@ public class Map extends BasicGameState
 		}
 		
 		// Draw the outlines of the non-player cars
-		if(cars.size() > 0)
-		{
-			for(int i = 0; i < cars.size(); i++)
-			{
-				g.draw(cars.get(i).getHitbox());
-			}
-		}
+		if(startRouteBoolean == true)
+			g.draw(cars.get(0).getHitbox());
+
 		
 		// Draw the outlines of the buildings
 		for (int i = 0; i < buildings.length; i++)
@@ -196,10 +192,6 @@ public class Map extends BasicGameState
 		
 		if(collision())
 			player.setX(-movementX);
-		
-		// TODO: Fix bug here
-		if(carAccident())
-			player.setX(876 - player.getX());
 			
 		if(container.getInput().isKeyDown(Input.KEY_W))
 			movementY = -4f;
@@ -215,10 +207,7 @@ public class Map extends BasicGameState
 		if(collision())
 			player.setY(-movementY);
 		
-		// TODO: Fix bug here
-		if(carAccident())
-			player.setY(434 - player.getY());
-		
+		carAccident();
 		askForDelivery();
 		dropPackage(container);	
 		
@@ -346,17 +335,15 @@ public class Map extends BasicGameState
 	
 	private boolean carAccident() throws SlickException
 	{
-		for(int i = 0; i < cars.size(); i++)
+		if(player.getHitbox().intersects(cars.get(0).getHitbox()))
 		{
-			if(player.getHitbox().intersects(cars.get(i).getHitbox()))
-			{
-				GameSounds.collisionSound().play();
-				score = score < 10 ? 0 : score - 10;
-				inAccident = true;
-			}
-			else
-				inAccident = false;
+			GameSounds.collisionSound().play();
+			score = score < 10 ? 0 : score - 10;
+			inAccident = true;
+			player.resetVehicle(876, 434);
 		}
+		else
+			inAccident = false;
 			
 		return inAccident;	
 	}
