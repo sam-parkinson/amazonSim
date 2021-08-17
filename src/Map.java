@@ -237,7 +237,7 @@ public class Map extends BasicGameState
 		{
 			sbg.enterState(2);		
 			GameMusic.mapMusic().pause();
-		}
+					}
 		       	
 		return time2;
 	}

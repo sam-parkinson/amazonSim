@@ -38,6 +38,7 @@ public class Menu extends BasicGameState
 		GameMusic.menuMusic().loop();
 		
 		
+		
 		start = new Polygon(new float[] {472, 273, 813, 273, 813, 350, 473, 350});
 		howToPlay = new Polygon(new float[] {473, 353, 813, 353, 813, 425, 472, 425});
 		exit = new Polygon(new float[] {472, 429, 813, 429, 813, 513, 472, 513});
