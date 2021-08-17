@@ -202,6 +202,8 @@ public class Map extends BasicGameState
 		askForDelivery();
 		dropPackage(container);	
 
+		if (time2 % 5 == 0)
+			resetHouses();
 		
 		if(npc1.routeFinished() && cars.size() > 0)
 			cars.remove(0);	
@@ -359,6 +361,7 @@ public class Map extends BasicGameState
 	private void dropPackage(GameContainer container) throws SlickException
 	{
 		for (int i = 0; i < buildings.length; i++)
+		{
 			if (player.getHitbox().intersects(buildings[i].getDropZone()) 
 					&& container.getInput().isKeyPressed(Input.KEY_SPACE)
 					&& parcels >= buildings[i].parcels()
@@ -370,6 +373,18 @@ public class Map extends BasicGameState
 				buildings[i].setDeliveryStatus(3);
 				activeHouses--;
 			}
+		}
+	}
+	
+	private void resetHouses()
+	{
+		for (int i = 0; i < buildings.length; i++)
+		{
+			if (buildings[i].delivered())
+			{
+				buildings[i].setDeliveryStatus(0);
+			}
+		}
 	}
 	
 	/**

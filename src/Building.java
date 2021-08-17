@@ -123,6 +123,11 @@ public abstract class Building
 		return status == Status.NEEDED;
 	}
 	
+	public boolean delivered()
+	{
+		return status == Status.COMPLETED;
+	}
+	
 	/**
 	* The setDeliveryStatus method updates the delivery status of the building
 	* @param Status the incoming delivery status of the building
