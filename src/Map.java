@@ -65,6 +65,11 @@ public class Map extends BasicGameState
 	private int activeHouses = 0;
 	private final int MAX_ACTIVE_HOUSES = 12; 	// This can be set based on game balance
 
+	/**
+	 * The one-arg constructor
+	 * @param map
+	 */
+	
 	public Map(int map) {
 		// TODO Auto-generated constructor stub
 	}
@@ -103,7 +108,6 @@ public class Map extends BasicGameState
 		cars.add(npc7);
 		
 		/*
-			TODO: Potentially put road generation in its own function
 		 	Below are the polygons defining the wall edges, which are used to bound the car's movement
 		*/
 		roads[0] = new Polygon(new float[] {0, 0, 1280, 0, 1280, 720, 0, 720});		// This is the map edge
@@ -170,11 +174,7 @@ public class Map extends BasicGameState
 		drawParcelMeter();
 	}
 	
-	public void startRoute(GameContainer container, Graphics g)
-	{
-		cars.get(0).sprite(container).draw(cars.get(0).getX(), cars.get(0).getY());
-		cars.get(0).movement();
-	}
+
 
 	@Override
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException
@@ -229,10 +229,7 @@ public class Map extends BasicGameState
 				startRouteBoolean = false;
 				cars.remove(i);			
 			}
-
 		}
-		
-		
 	}
 	
 	@Override
@@ -240,6 +237,7 @@ public class Map extends BasicGameState
 	{
 		return 1;
 	}
+	
 	/**
 	 * The reset method returns game information to its starting values
 	 * @throws SlickException 
@@ -264,6 +262,11 @@ public class Map extends BasicGameState
 		cars.add(npc7);
 		GameMusic.mapMusic().loop();
 	}
+	
+	/**
+	 * The getScore method
+	 * @return The player's score
+	 */
 	
 	public static int getScore()
 	{
@@ -323,6 +326,18 @@ public class Map extends BasicGameState
 	}
 	
 	/**
+	 * The startRoute method triggers NPC movement
+	 * @param container
+	 * @param g
+	 */
+	
+	private void startRoute(GameContainer container, Graphics g)
+	{
+		cars.get(0).sprite(container).draw(cars.get(0).getX(), cars.get(0).getY());
+		cars.get(0).movement();
+	}
+	
+	/**
 	 * The collision method checks each road and building to see if the player character
 	 * is contacting or overlapping with any of them.
 	 * @return Whether or not the player character is colliding with a road or building
@@ -379,6 +394,11 @@ public class Map extends BasicGameState
 			
 		return inAccident;	
 	}
+	
+	/**
+	 * The getInAccident method
+	 * @return Whether or not the car is crashed
+	 */
 	
 	public static boolean getInAccident()
 	{
@@ -445,7 +465,6 @@ public class Map extends BasicGameState
 	
 	/**
 	 * The fillBuildings method populates the buildings array.
-	 * TODO: add Warehouse to this
 	 * @throws SlickException 
 	 */
 	
