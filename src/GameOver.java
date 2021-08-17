@@ -2,9 +2,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 
 /**
@@ -47,6 +50,8 @@ public class GameOver extends BasicGameState
 	{
 		
 		GameSounds.gameOverSound().play();	
+		if(container.getInput().isKeyPressed(Input.KEY_E)) 
+			sbg.enterState(4, new FadeOutTransition(), new FadeInTransition());
 		   
 	}
 
