@@ -237,7 +237,7 @@ public class Map extends BasicGameState
 		{
 			sbg.enterState(2);		
 			GameMusic.mapMusic().pause();
-		}
+					}
 		       	
 		return time2;
 	}
@@ -359,6 +359,7 @@ public class Map extends BasicGameState
 					&& parcels >= buildings[i].parcels()
 					&& (buildings[i].awaitingDelivery() || i == 0))
 			{
+				GameSounds.packagedroppedSound().play();
 				score += buildings[i].score() * buildings[i].parcels();
 				parcels = buildings[i].parcels() == -1 ? parcelCapacity : parcels - buildings[i].parcels();
 				buildings[i].setDeliveryStatus(3);
